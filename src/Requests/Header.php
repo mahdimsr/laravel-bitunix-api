@@ -8,23 +8,25 @@ class Header
     {
         $sortableParameters = $parameters;
 
-        if (!count($sortableParameters)) {
+        if (! count($sortableParameters)) {
             return [];
         }
 
         ksort($sortableParameters, SORT_LOCALE_STRING);
+
         return $sortableParameters;
     }
 
     public static function digestQueryParameters(array $parameters): ?string
     {
-        if (!count($parameters)) {
+        if (! count($parameters)) {
             return null;
         }
 
         $sortedParameters = self::sortQueryParameters($parameters);
+
         return implode('', array_map(
-            fn($k, $v) => $k . $v,
+            fn ($k, $v) => $k.$v,
             array_keys($sortedParameters),
             array_values($sortedParameters)
         ));
@@ -39,12 +41,13 @@ class Header
     {
         $apiKey = config('bitunix-api.api_key');
         $apiSecret = config('bitunix-api.api_secret');
-        $timeStamp = (string)round(microtime(true) * 1000);
+        $timeStamp = (string) round(microtime(true) * 1000);
         $digestedQueryParam = self::digestQueryParameters($queryParams);
 
-        $digestedHeader = $randomNonce . $timeStamp . $apiKey . $digestedQueryParam . $body;
+        $digestedHeader = $randomNonce.$timeStamp.$apiKey.$digestedQueryParam.$body;
         $hash = hash('sha256', $digestedHeader);
-        $sign = $hash . $apiSecret;
+        $sign = $hash.$apiSecret;
+
         return hash('sha256', $sign);
     }
 }
