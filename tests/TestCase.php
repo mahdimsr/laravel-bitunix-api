@@ -3,8 +3,8 @@
 namespace Msr\LaravelBitunixApi\Tests;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Orchestra\Testbench\TestCase as Orchestra;
 use Msr\LaravelBitunixApi\LaravelBitunixApiServiceProvider;
+use Orchestra\Testbench\TestCase as Orchestra;
 
 class TestCase extends Orchestra
 {
