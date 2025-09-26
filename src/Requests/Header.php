@@ -34,4 +34,17 @@ class Header
     {
         return md5(uniqid(mt_rand(), true));
     }
+
+    public static function generateSignValue(array $queryParams = [], string $body = '', string $randomNonce = ''): string
+    {
+        $apiKey = config('bitunix-api.api_key');
+        $apiSecret = config('bitunix-api.api_secret');
+        $timeStamp = (string)round(microtime(true) * 1000);
+        $digestedQueryParam = self::digestQueryParameters($queryParams);
+
+        $digestedHeader = $randomNonce . $timeStamp . $apiKey . $digestedQueryParam . $body;
+        $hash = hash('sha256', $digestedHeader);
+        $sign = $hash . $apiSecret;
+        return hash('sha256', $sign);
+    }
 }
