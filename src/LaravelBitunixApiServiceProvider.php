@@ -2,6 +2,7 @@
 
 namespace Msr\LaravelBitunixApi;
 
+use Msr\LaravelBitunixApi\Requests\FutureKLineRequestContract;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use Msr\LaravelBitunixApi\Commands\LaravelBitunixApiCommand;
@@ -21,5 +22,12 @@ class LaravelBitunixApiServiceProvider extends PackageServiceProvider
             ->hasViews()
             ->hasMigration('create_laravel_bitunix_api_table')
             ->hasCommand(LaravelBitunixApiCommand::class);
+    }
+
+    public function packageRegistered(): void
+    {
+        parent::packageRegistered();
+
+        $this->app->bind(FutureKLineRequestContract::class, LaravelBitunixApi::class);
     }
 }
