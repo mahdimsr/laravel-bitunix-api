@@ -2,10 +2,10 @@
 
 namespace Msr\LaravelBitunixApi;
 
+use Msr\LaravelBitunixApi\Commands\LaravelBitunixApiCommand;
 use Msr\LaravelBitunixApi\Requests\FutureKLineRequestContract;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Msr\LaravelBitunixApi\Commands\LaravelBitunixApiCommand;
 
 class LaravelBitunixApiServiceProvider extends PackageServiceProvider
 {

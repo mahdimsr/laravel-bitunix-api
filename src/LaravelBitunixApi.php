@@ -13,7 +13,7 @@ class LaravelBitunixApi implements FutureKLineRequestContract
     public function __construct()
     {
         $this->publicFutureClient = new Client([
-            'base_uri' => config('bitunix-api.future_base_uri') . '/api/v1/futures/market/',
+            'base_uri' => config('bitunix-api.future_base_uri').'/api/v1/futures/market/',
         ]);
     }
 
@@ -27,7 +27,7 @@ class LaravelBitunixApi implements FutureKLineRequestContract
                 'startTime' => $startTime,
                 'endTime' => $endTime,
                 'type' => $type,
-            ]
+            ],
         ]);
 
         return $response;
