@@ -68,6 +68,47 @@ if ($response->getStatusCode() === 200) {
 }
 ```
 
+### Place Order
+
+```php
+use Msr\LaravelBitunixApi\Requests\PlaceOrderRequestContract;
+
+$api = app(PlaceOrderRequestContract::class);
+
+// Basic market order
+$response = $api->placeOrder('BTCUSDT', '0.1', 'BUY', 'OPEN', 'MARKET');
+
+// Limit order with take profit and stop loss
+$response = $api->placeOrder(
+    'BTCUSDT',
+    '0.1',
+    'BUY',
+    'OPEN',
+    'LIMIT',
+    '50000',        // price
+    null,           // positionId
+    'GTC',          // effect
+    'order-123',   // clientId
+    false,          // reduceOnly
+    '51000',        // tpPrice
+    'MARK_PRICE',   // tpStopType
+    'LIMIT',        // tpOrderType
+    '51000.1',      // tpOrderPrice
+    '49000',        // slPrice
+    'MARK_PRICE',   // slStopType
+    'LIMIT',        // slOrderType
+    '49000.1'       // slOrderPrice
+);
+
+if ($response->getStatusCode() === 200) {
+    $data = json_decode($response->getBody()->getContents(), true);
+    if ($data['code'] === 0) {
+        echo "Order placed successfully!";
+        echo "Order ID: " . $data['data']['orderId'];
+    }
+}
+```
+
 ### Get Future Kline Data
 
 ```php
@@ -89,6 +130,10 @@ if ($response->getStatusCode() === 200) {
 - `changeLeverage(string $symbol, string $marginCoin, int $leverage)` - Change leverage
 - `changeMarginMode(string $symbol, string $marginCoin, string $marginMode)` - Change margin mode
 
+### Trading
+
+- `placeOrder(...)` - Place a new order with full support for all order types, take profit, stop loss, and position management
+
 ### Market Data
 
 - `getFutureKline(string $symbol, string $interval, int $limit, ?int $startTime, ?int $endTime, string $type)` - Get kline data
@@ -106,6 +151,7 @@ if ($response->getStatusCode() === 200) {
 
 - **Change Leverage**: 10 req/sec/uid
 - **Change Margin Mode**: 10 req/sec/uid
+- **Place Order**: 10 req/sec/uid
 
 ## Error Handling
 
@@ -143,6 +189,7 @@ Run specific tests:
 ```bash
 vendor/bin/pest tests/ChangeLeverageTest.php
 vendor/bin/pest tests/ChangeMarginModeTest.php
+vendor/bin/pest tests/PlaceOrderTest.php
 vendor/bin/pest tests/HeaderTest.php
 ```
 
@@ -152,6 +199,7 @@ See the `examples/` directory for complete usage examples:
 
 - `ChangeLeverageExample.php`
 - `ChangeMarginModeExample.php`
+- `PlaceOrderExample.php`
 
 ## Troubleshooting
 

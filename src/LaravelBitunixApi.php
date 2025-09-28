@@ -7,9 +7,10 @@ use Msr\LaravelBitunixApi\Requests\ChangeLeverageRequestContract;
 use Msr\LaravelBitunixApi\Requests\ChangeMarginModeRequestContract;
 use Msr\LaravelBitunixApi\Requests\FutureKLineRequestContract;
 use Msr\LaravelBitunixApi\Requests\Header;
+use Msr\LaravelBitunixApi\Requests\PlaceOrderRequestContract;
 use Psr\Http\Message\ResponseInterface;
 
-class LaravelBitunixApi implements ChangeLeverageRequestContract, ChangeMarginModeRequestContract, FutureKLineRequestContract
+class LaravelBitunixApi implements ChangeLeverageRequestContract, ChangeMarginModeRequestContract, FutureKLineRequestContract, PlaceOrderRequestContract
 {
     private Client $publicFutureClient;
 
@@ -71,6 +72,82 @@ class LaravelBitunixApi implements ChangeLeverageRequestContract, ChangeMarginMo
         ];
 
         $response = $this->getPrivateFutureClient([], $body)->post('account/change_margin_mode', [
+            'json' => $body,
+        ]);
+
+        return $response;
+    }
+
+    public function placeOrder(
+        string $symbol,
+        string $qty,
+        string $side,
+        string $tradeSide,
+        string $orderType,
+        ?string $price = null,
+        ?string $positionId = null,
+        ?string $effect = null,
+        ?string $clientId = null,
+        ?bool $reduceOnly = null,
+        ?string $tpPrice = null,
+        ?string $tpStopType = null,
+        ?string $tpOrderType = null,
+        ?string $tpOrderPrice = null,
+        ?string $slPrice = null,
+        ?string $slStopType = null,
+        ?string $slOrderType = null,
+        ?string $slOrderPrice = null
+    ): ResponseInterface {
+        $body = [
+            'symbol' => $symbol,
+            'qty' => $qty,
+            'side' => $side,
+            'tradeSide' => $tradeSide,
+            'orderType' => $orderType,
+        ];
+
+        // Add optional parameters if provided
+        if ($price !== null) {
+            $body['price'] = $price;
+        }
+        if ($positionId !== null) {
+            $body['positionId'] = $positionId;
+        }
+        if ($effect !== null) {
+            $body['effect'] = $effect;
+        }
+        if ($clientId !== null) {
+            $body['clientId'] = $clientId;
+        }
+        if ($reduceOnly !== null) {
+            $body['reduceOnly'] = $reduceOnly;
+        }
+        if ($tpPrice !== null) {
+            $body['tpPrice'] = $tpPrice;
+        }
+        if ($tpStopType !== null) {
+            $body['tpStopType'] = $tpStopType;
+        }
+        if ($tpOrderType !== null) {
+            $body['tpOrderType'] = $tpOrderType;
+        }
+        if ($tpOrderPrice !== null) {
+            $body['tpOrderPrice'] = $tpOrderPrice;
+        }
+        if ($slPrice !== null) {
+            $body['slPrice'] = $slPrice;
+        }
+        if ($slStopType !== null) {
+            $body['slStopType'] = $slStopType;
+        }
+        if ($slOrderType !== null) {
+            $body['slOrderType'] = $slOrderType;
+        }
+        if ($slOrderPrice !== null) {
+            $body['slOrderPrice'] = $slOrderPrice;
+        }
+
+        $response = $this->getPrivateFutureClient([], $body)->post('trade/place_order', [
             'json' => $body,
         ]);
 

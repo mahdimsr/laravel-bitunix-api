@@ -6,6 +6,7 @@ use Msr\LaravelBitunixApi\Commands\LaravelBitunixApiCommand;
 use Msr\LaravelBitunixApi\Requests\ChangeLeverageRequestContract;
 use Msr\LaravelBitunixApi\Requests\ChangeMarginModeRequestContract;
 use Msr\LaravelBitunixApi\Requests\FutureKLineRequestContract;
+use Msr\LaravelBitunixApi\Requests\PlaceOrderRequestContract;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -33,5 +34,6 @@ class LaravelBitunixApiServiceProvider extends PackageServiceProvider
         $this->app->bind(FutureKLineRequestContract::class, LaravelBitunixApi::class);
         $this->app->bind(ChangeLeverageRequestContract::class, LaravelBitunixApi::class);
         $this->app->bind(ChangeMarginModeRequestContract::class, LaravelBitunixApi::class);
+        $this->app->bind(PlaceOrderRequestContract::class, LaravelBitunixApi::class);
     }
 }
