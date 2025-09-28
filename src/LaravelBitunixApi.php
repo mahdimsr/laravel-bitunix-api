@@ -11,10 +11,11 @@ use Msr\LaravelBitunixApi\Requests\GetPendingPositionsRequestContract;
 use Msr\LaravelBitunixApi\Requests\GetSingleAccountRequestContract;
 use Msr\LaravelBitunixApi\Requests\Header;
 use Msr\LaravelBitunixApi\Requests\PlaceOrderRequestContract;
+use Msr\LaravelBitunixApi\Requests\PlacePositionTpSlOrderRequestContract;
 use Msr\LaravelBitunixApi\Requests\PlaceTpSlOrderRequestContract;
 use Psr\Http\Message\ResponseInterface;
 
-class LaravelBitunixApi implements ChangeLeverageRequestContract, ChangeMarginModeRequestContract, FlashClosePositionRequestContract, FutureKLineRequestContract, GetPendingPositionsRequestContract, GetSingleAccountRequestContract, PlaceOrderRequestContract, PlaceTpSlOrderRequestContract
+class LaravelBitunixApi implements ChangeLeverageRequestContract, ChangeMarginModeRequestContract, FlashClosePositionRequestContract, FutureKLineRequestContract, GetPendingPositionsRequestContract, GetSingleAccountRequestContract, PlaceOrderRequestContract, PlaceTpSlOrderRequestContract, PlacePositionTpSlOrderRequestContract
 {
     private Client $publicFutureClient;
 
@@ -255,6 +256,40 @@ class LaravelBitunixApi implements ChangeLeverageRequestContract, ChangeMarginMo
         }
 
         $response = $this->getPrivateFutureClient([], $body)->post('tpsl/place_order', [
+            'json' => $body,
+        ]);
+
+        return $response;
+    }
+
+    public function placePositionTpSlOrder(
+        string $symbol,
+        string $positionId,
+        ?string $tpPrice = null,
+        ?string $tpStopType = null,
+        ?string $slPrice = null,
+        ?string $slStopType = null
+    ): ResponseInterface {
+        $body = [
+            'symbol' => $symbol,
+            'positionId' => $positionId,
+        ];
+
+        // Add optional parameters if provided
+        if ($tpPrice !== null) {
+            $body['tpPrice'] = $tpPrice;
+        }
+        if ($tpStopType !== null) {
+            $body['tpStopType'] = $tpStopType;
+        }
+        if ($slPrice !== null) {
+            $body['slPrice'] = $slPrice;
+        }
+        if ($slStopType !== null) {
+            $body['slStopType'] = $slStopType;
+        }
+
+        $response = $this->getPrivateFutureClient([], $body)->post('tpsl/position/place_order', [
             'json' => $body,
         ]);
 

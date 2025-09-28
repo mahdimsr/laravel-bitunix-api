@@ -217,6 +217,32 @@ if ($response->getStatusCode() === 200) {
 }
 ```
 
+### Place Position TP/SL Order
+
+```php
+use Msr\LaravelBitunixApi\Requests\PlacePositionTpSlOrderRequestContract;
+
+$api = app(PlacePositionTpSlOrderRequestContract::class);
+
+// Place position TP/SL order with both take profit and stop loss
+$response = $api->placePositionTpSlOrder(
+    'BTCUSDT',          // symbol
+    '111',              // positionId
+    '50000',            // tpPrice
+    'LAST_PRICE',       // tpStopType
+    '45000',            // slPrice
+    'LAST_PRICE'        // slStopType
+);
+
+if ($response->getStatusCode() === 200) {
+    $data = json_decode($response->getBody()->getContents(), true);
+    if ($data['code'] === 0) {
+        echo "Position TP/SL order placed successfully!";
+        echo "Order ID: " . $data['data']['orderId'];
+    }
+}
+```
+
 ### Get Future Kline Data
 
 ```php
@@ -243,6 +269,7 @@ if ($response->getStatusCode() === 200) {
 
 - `placeOrder(...)` - Place a new order with full support for all order types, take profit, stop loss, and position management
 - `placeTpSlOrder(...)` - Place TP/SL order for existing positions
+- `placePositionTpSlOrder(...)` - Place position TP/SL order (closes position at market price when triggered)
 - `flashClosePosition(string $positionId)` - Flash close position by position ID
 
 ### Position Management
@@ -269,6 +296,7 @@ if ($response->getStatusCode() === 200) {
 - **Get Single Account**: 10 req/sec/uid
 - **Place Order**: 10 req/sec/uid
 - **Place TP/SL Order**: 10 req/sec/uid
+- **Place Position TP/SL Order**: 10 req/sec/uid
 - **Flash Close Position**: 5 req/sec/uid
 - **Get Pending Positions**: 10 req/sec/uid
 
@@ -311,6 +339,7 @@ vendor/bin/pest tests/ChangeMarginModeTest.php
 vendor/bin/pest tests/GetSingleAccountTest.php
 vendor/bin/pest tests/PlaceOrderTest.php
 vendor/bin/pest tests/PlaceTpSlOrderTest.php
+vendor/bin/pest tests/PlacePositionTpSlOrderTest.php
 vendor/bin/pest tests/FlashClosePositionTest.php
 vendor/bin/pest tests/GetPendingPositionsTest.php
 vendor/bin/pest tests/HeaderTest.php
@@ -325,6 +354,7 @@ See the `examples/` directory for complete usage examples:
 - `GetSingleAccountExample.php`
 - `PlaceOrderExample.php`
 - `PlaceTpSlOrderExample.php`
+- `PlacePositionTpSlOrderExample.php`
 - `FlashClosePositionExample.php`
 - `GetPendingPositionsExample.php`
 
