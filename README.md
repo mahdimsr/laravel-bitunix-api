@@ -126,6 +126,39 @@ if ($response->getStatusCode() === 200) {
 }
 ```
 
+### Get Pending Positions
+
+```php
+use Msr\LaravelBitunixApi\Requests\GetPendingPositionsRequestContract;
+
+$api = app(GetPendingPositionsRequestContract::class);
+
+// Get all pending positions
+$response = $api->getPendingPositions();
+
+// Get positions by symbol
+$response = $api->getPendingPositions('BTCUSDT');
+
+// Get specific position by ID
+$response = $api->getPendingPositions(null, '19848247723672');
+
+// Get positions with both symbol and position ID
+$response = $api->getPendingPositions('BTCUSDT', '19848247723672');
+
+if ($response->getStatusCode() === 200) {
+    $data = json_decode($response->getBody()->getContents(), true);
+    if ($data['code'] === 0) {
+        echo "Positions retrieved successfully!";
+        foreach ($data['data'] as $position) {
+            echo "Position ID: " . $position['positionId'];
+            echo "Symbol: " . $position['symbol'];
+            echo "Side: " . $position['side'];
+            echo "Unrealized PnL: " . $position['unrealizedPNL'];
+        }
+    }
+}
+```
+
 ### Get Future Kline Data
 
 ```php
@@ -152,6 +185,10 @@ if ($response->getStatusCode() === 200) {
 - `placeOrder(...)` - Place a new order with full support for all order types, take profit, stop loss, and position management
 - `flashClosePosition(string $positionId)` - Flash close position by position ID
 
+### Position Management
+
+- `getPendingPositions(?string $symbol, ?string $positionId)` - Get pending positions with optional filtering
+
 ### Market Data
 
 - `getFutureKline(string $symbol, string $interval, int $limit, ?int $startTime, ?int $endTime, string $type)` - Get kline data
@@ -171,6 +208,7 @@ if ($response->getStatusCode() === 200) {
 - **Change Margin Mode**: 10 req/sec/uid
 - **Place Order**: 10 req/sec/uid
 - **Flash Close Position**: 5 req/sec/uid
+- **Get Pending Positions**: 10 req/sec/uid
 
 ## Error Handling
 
@@ -210,6 +248,7 @@ vendor/bin/pest tests/ChangeLeverageTest.php
 vendor/bin/pest tests/ChangeMarginModeTest.php
 vendor/bin/pest tests/PlaceOrderTest.php
 vendor/bin/pest tests/FlashClosePositionTest.php
+vendor/bin/pest tests/GetPendingPositionsTest.php
 vendor/bin/pest tests/HeaderTest.php
 ```
 
@@ -221,6 +260,7 @@ See the `examples/` directory for complete usage examples:
 - `ChangeMarginModeExample.php`
 - `PlaceOrderExample.php`
 - `FlashClosePositionExample.php`
+- `GetPendingPositionsExample.php`
 
 ## Troubleshooting
 

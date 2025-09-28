@@ -7,11 +7,12 @@ use Msr\LaravelBitunixApi\Requests\ChangeLeverageRequestContract;
 use Msr\LaravelBitunixApi\Requests\ChangeMarginModeRequestContract;
 use Msr\LaravelBitunixApi\Requests\FlashClosePositionRequestContract;
 use Msr\LaravelBitunixApi\Requests\FutureKLineRequestContract;
+use Msr\LaravelBitunixApi\Requests\GetPendingPositionsRequestContract;
 use Msr\LaravelBitunixApi\Requests\Header;
 use Msr\LaravelBitunixApi\Requests\PlaceOrderRequestContract;
 use Psr\Http\Message\ResponseInterface;
 
-class LaravelBitunixApi implements ChangeLeverageRequestContract, ChangeMarginModeRequestContract, FlashClosePositionRequestContract, FutureKLineRequestContract, PlaceOrderRequestContract
+class LaravelBitunixApi implements ChangeLeverageRequestContract, ChangeMarginModeRequestContract, FlashClosePositionRequestContract, FutureKLineRequestContract, GetPendingPositionsRequestContract, PlaceOrderRequestContract
 {
     private Client $publicFutureClient;
 
@@ -24,7 +25,7 @@ class LaravelBitunixApi implements ChangeLeverageRequestContract, ChangeMarginMo
 
     protected function getPrivateFutureClient(array $queryParams = [], array $body = []): Client
     {
-        $bodyString = json_encode($body);
+        $bodyString = count($body) ? json_encode($body) : '';
         $headers = Header::generateHeaders($queryParams, $bodyString);
 
         return new Client([
@@ -163,6 +164,25 @@ class LaravelBitunixApi implements ChangeLeverageRequestContract, ChangeMarginMo
 
         $response = $this->getPrivateFutureClient([], $body)->post('trade/flash_close_position', [
             'json' => $body,
+        ]);
+
+        return $response;
+    }
+
+    public function getPendingPositions(?string $symbol = null, ?string $positionId = null): ResponseInterface
+    {
+        $queryParams = [];
+
+        if ($symbol != null) {
+            $queryParams['symbol'] = $symbol;
+        }
+
+        if ($positionId != null) {
+            $queryParams['positionId'] = $positionId;
+        }
+
+        $response = $this->getPrivateFutureClient($queryParams, [])->get('position/get_pending_positions', [
+            'query' => $queryParams,
         ]);
 
         return $response;
