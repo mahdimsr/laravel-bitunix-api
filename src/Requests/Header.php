@@ -21,6 +21,7 @@ class Header
     /**
      * Convert sorted parameters to string format
      * Example: ["id" => "1", "uid" => "200"] becomes "id1uid200"
+     * According to Bitunix documentation: String queryParams = "id1uid200"
      */
     public static function digestQueryParameters(array $parameters): string
     {
@@ -32,7 +33,7 @@ class Header
         $result = '';
 
         foreach ($sortedParameters as $key => $value) {
-            $result .= $key.$value;
+            $result .= $key . $value;
         }
 
         return $result;
@@ -78,8 +79,12 @@ class Header
         // Step 2: Remove all spaces from body (already done if JSON encoded properly)
         $bodyString = trim($body);
 
-        // Step 3: Create digest: SHA256(nonce + timestamp + api-key + queryParams + body)
-        $digestInput = $nonce.$timestamp.$apiKey.$queryParamsString.$bodyString;
+        // Step 3: Create digest: SHA256(nonce + timestamp + api-key + queryParams + body (if not empty))
+        if (strlen($bodyString) == 0) {
+            $digestInput = $nonce.$timestamp.$apiKey.$queryParamsString;
+        }else{
+            $digestInput = $nonce.$timestamp.$apiKey.$queryParamsString.$bodyString;
+        }
         $digest = hash('sha256', $digestInput);
 
         // Step 4: Create sign: SHA256(digest + secretKey)
