@@ -39,9 +39,9 @@ try {
         $data = json_decode($response->getBody()->getContents(), true);
         if ($data['code'] === 0) {
             echo "✅ Market order placed successfully!\n";
-            echo "Order ID: " . $data['data']['orderId'] . "\n";
+            echo 'Order ID: '.$data['data']['orderId']."\n";
         } else {
-            echo "❌ API Error: " . $data['msg'] . "\n";
+            echo '❌ API Error: '.$data['msg']."\n";
         }
     }
 
@@ -74,10 +74,10 @@ try {
         $data = json_decode($response->getBody()->getContents(), true);
         if ($data['code'] === 0) {
             echo "✅ Limit order with TP/SL placed successfully!\n";
-            echo "Order ID: " . $data['data']['orderId'] . "\n";
-            echo "Client ID: " . $data['data']['clientId'] . "\n";
+            echo 'Order ID: '.$data['data']['orderId']."\n";
+            echo 'Client ID: '.$data['data']['clientId']."\n";
         } else {
-            echo "❌ API Error: " . $data['msg'] . "\n";
+            echo '❌ API Error: '.$data['msg']."\n";
         }
     }
 
@@ -99,9 +99,9 @@ try {
         $data = json_decode($response->getBody()->getContents(), true);
         if ($data['code'] === 0) {
             echo "✅ Close position order placed successfully!\n";
-            echo "Order ID: " . $data['data']['orderId'] . "\n";
+            echo 'Order ID: '.$data['data']['orderId']."\n";
         } else {
-            echo "❌ API Error: " . $data['msg'] . "\n";
+            echo '❌ API Error: '.$data['msg']."\n";
         }
     }
 
@@ -126,9 +126,9 @@ try {
         $data = json_decode($response->getBody()->getContents(), true);
         if ($data['code'] === 0) {
             echo "✅ Reduce only order placed successfully!\n";
-            echo "Order ID: " . $data['data']['orderId'] . "\n";
+            echo 'Order ID: '.$data['data']['orderId']."\n";
         } else {
-            echo "❌ API Error: " . $data['msg'] . "\n";
+            echo '❌ API Error: '.$data['msg']."\n";
         }
     }
 
@@ -165,4 +165,3 @@ try {
  * BITUNIX_API_SECRET=your-api-secret
  * BITUNIX_LANGUAGE=en-US
  */
-
