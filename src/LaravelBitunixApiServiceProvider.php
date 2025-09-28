@@ -8,6 +8,7 @@ use Msr\LaravelBitunixApi\Requests\ChangeMarginModeRequestContract;
 use Msr\LaravelBitunixApi\Requests\FlashClosePositionRequestContract;
 use Msr\LaravelBitunixApi\Requests\FutureKLineRequestContract;
 use Msr\LaravelBitunixApi\Requests\GetPendingPositionsRequestContract;
+use Msr\LaravelBitunixApi\Requests\GetSingleAccountRequestContract;
 use Msr\LaravelBitunixApi\Requests\PlaceOrderRequestContract;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -39,5 +40,6 @@ class LaravelBitunixApiServiceProvider extends PackageServiceProvider
         $this->app->bind(PlaceOrderRequestContract::class, LaravelBitunixApi::class);
         $this->app->bind(FlashClosePositionRequestContract::class, LaravelBitunixApi::class);
         $this->app->bind(GetPendingPositionsRequestContract::class, LaravelBitunixApi::class);
+        $this->app->bind(GetSingleAccountRequestContract::class, LaravelBitunixApi::class);
     }
 }

@@ -8,11 +8,12 @@ use Msr\LaravelBitunixApi\Requests\ChangeMarginModeRequestContract;
 use Msr\LaravelBitunixApi\Requests\FlashClosePositionRequestContract;
 use Msr\LaravelBitunixApi\Requests\FutureKLineRequestContract;
 use Msr\LaravelBitunixApi\Requests\GetPendingPositionsRequestContract;
+use Msr\LaravelBitunixApi\Requests\GetSingleAccountRequestContract;
 use Msr\LaravelBitunixApi\Requests\Header;
 use Msr\LaravelBitunixApi\Requests\PlaceOrderRequestContract;
 use Psr\Http\Message\ResponseInterface;
 
-class LaravelBitunixApi implements ChangeLeverageRequestContract, ChangeMarginModeRequestContract, FlashClosePositionRequestContract, FutureKLineRequestContract, GetPendingPositionsRequestContract, PlaceOrderRequestContract
+class LaravelBitunixApi implements ChangeLeverageRequestContract, ChangeMarginModeRequestContract, FlashClosePositionRequestContract, FutureKLineRequestContract, GetPendingPositionsRequestContract, GetSingleAccountRequestContract, PlaceOrderRequestContract
 {
     private Client $publicFutureClient;
 
@@ -182,6 +183,19 @@ class LaravelBitunixApi implements ChangeLeverageRequestContract, ChangeMarginMo
         }
 
         $response = $this->getPrivateFutureClient($queryParams, [])->get('position/get_pending_positions', [
+            'query' => $queryParams,
+        ]);
+
+        return $response;
+    }
+
+    public function getSingleAccount(string $marginCoin): ResponseInterface
+    {
+        $queryParams = [
+            'marginCoin' => $marginCoin,
+        ];
+
+        $response = $this->getPrivateFutureClient($queryParams, [])->get('account', [
             'query' => $queryParams,
         ]);
 

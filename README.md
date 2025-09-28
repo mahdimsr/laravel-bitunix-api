@@ -159,6 +159,32 @@ if ($response->getStatusCode() === 200) {
 }
 ```
 
+### Get Single Account
+
+```php
+use Msr\LaravelBitunixApi\Requests\GetSingleAccountRequestContract;
+
+$api = app(GetSingleAccountRequestContract::class);
+$response = $api->getSingleAccount('USDT');
+
+if ($response->getStatusCode() === 200) {
+    $data = json_decode($response->getBody()->getContents(), true);
+    if ($data['code'] === 0) {
+        $account = $data['data'][0];
+        echo "Account retrieved successfully!";
+        echo "Margin Coin: " . $account['marginCoin'];
+        echo "Available: " . $account['available'];
+        echo "Frozen: " . $account['frozen'];
+        echo "Margin: " . $account['margin'];
+        echo "Transfer: " . $account['transfer'];
+        echo "Position Mode: " . $account['positionMode'];
+        echo "Cross Unrealized PnL: " . $account['crossUnrealizedPNL'];
+        echo "Isolation Unrealized PnL: " . $account['isolationUnrealizedPNL'];
+        echo "Bonus: " . $account['bonus'];
+    }
+}
+```
+
 ### Get Future Kline Data
 
 ```php
@@ -179,6 +205,7 @@ if ($response->getStatusCode() === 200) {
 
 - `changeLeverage(string $symbol, string $marginCoin, int $leverage)` - Change leverage
 - `changeMarginMode(string $symbol, string $marginCoin, string $marginMode)` - Change margin mode
+- `getSingleAccount(string $marginCoin)` - Get account details for specific margin coin
 
 ### Trading
 
@@ -206,6 +233,7 @@ if ($response->getStatusCode() === 200) {
 
 - **Change Leverage**: 10 req/sec/uid
 - **Change Margin Mode**: 10 req/sec/uid
+- **Get Single Account**: 10 req/sec/uid
 - **Place Order**: 10 req/sec/uid
 - **Flash Close Position**: 5 req/sec/uid
 - **Get Pending Positions**: 10 req/sec/uid
@@ -246,6 +274,7 @@ Run specific tests:
 ```bash
 vendor/bin/pest tests/ChangeLeverageTest.php
 vendor/bin/pest tests/ChangeMarginModeTest.php
+vendor/bin/pest tests/GetSingleAccountTest.php
 vendor/bin/pest tests/PlaceOrderTest.php
 vendor/bin/pest tests/FlashClosePositionTest.php
 vendor/bin/pest tests/GetPendingPositionsTest.php
@@ -258,6 +287,7 @@ See the `examples/` directory for complete usage examples:
 
 - `ChangeLeverageExample.php`
 - `ChangeMarginModeExample.php`
+- `GetSingleAccountExample.php`
 - `PlaceOrderExample.php`
 - `FlashClosePositionExample.php`
 - `GetPendingPositionsExample.php`
