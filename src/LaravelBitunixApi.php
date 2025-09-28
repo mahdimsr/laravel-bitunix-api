@@ -3,12 +3,12 @@
 namespace Msr\LaravelBitunixApi;
 
 use GuzzleHttp\Client;
-use Msr\LaravelBitunixApi\Requests\FutureKLineRequestContract;
 use Msr\LaravelBitunixApi\Requests\ChangeLeverageRequestContract;
+use Msr\LaravelBitunixApi\Requests\FutureKLineRequestContract;
 use Msr\LaravelBitunixApi\Requests\Header;
 use Psr\Http\Message\ResponseInterface;
 
-class LaravelBitunixApi implements FutureKLineRequestContract, ChangeLeverageRequestContract
+class LaravelBitunixApi implements ChangeLeverageRequestContract, FutureKLineRequestContract
 {
     private Client $publicFutureClient;
 
