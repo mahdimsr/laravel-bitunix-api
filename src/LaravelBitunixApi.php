@@ -4,9 +4,11 @@ namespace Msr\LaravelBitunixApi;
 
 use GuzzleHttp\Client;
 use Msr\LaravelBitunixApi\Requests\FutureKLineRequestContract;
+use Msr\LaravelBitunixApi\Requests\ChangeLeverageRequestContract;
+use Msr\LaravelBitunixApi\Requests\Header;
 use Psr\Http\Message\ResponseInterface;
 
-class LaravelBitunixApi implements FutureKLineRequestContract
+class LaravelBitunixApi implements FutureKLineRequestContract, ChangeLeverageRequestContract
 {
     private Client $publicFutureClient;
 
@@ -14,6 +16,17 @@ class LaravelBitunixApi implements FutureKLineRequestContract
     {
         $this->publicFutureClient = new Client([
             'base_uri' => config('bitunix-api.future_base_uri').'/api/v1/futures/market/',
+        ]);
+    }
+
+    protected function getPrivateFutureClient(array $queryParams = [], array $body = []): Client
+    {
+        $bodyString = json_encode($body);
+        $headers = Header::generateHeaders($queryParams, $bodyString);
+
+        return new Client([
+            'base_uri' => config('bitunix-api.future_base_uri').'/api/v1/futures/',
+            'headers' => $headers,
         ]);
     }
 
@@ -28,6 +41,21 @@ class LaravelBitunixApi implements FutureKLineRequestContract
                 'endTime' => $endTime,
                 'type' => $type,
             ],
+        ]);
+
+        return $response;
+    }
+
+    public function changeLeverage(string $symbol, string $marginCoin, int $leverage): ResponseInterface
+    {
+        $body = [
+            'symbol' => $symbol,
+            'marginCoin' => $marginCoin,
+            'leverage' => $leverage,
+        ];
+
+        $response = $this->getPrivateFutureClient([], $body)->post('account/change_leverage', [
+            'json' => $body,
         ]);
 
         return $response;

@@ -3,6 +3,7 @@
 namespace Msr\LaravelBitunixApi;
 
 use Msr\LaravelBitunixApi\Commands\LaravelBitunixApiCommand;
+use Msr\LaravelBitunixApi\Requests\ChangeLeverageRequestContract;
 use Msr\LaravelBitunixApi\Requests\FutureKLineRequestContract;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -29,5 +30,6 @@ class LaravelBitunixApiServiceProvider extends PackageServiceProvider
         parent::packageRegistered();
 
         $this->app->bind(FutureKLineRequestContract::class, LaravelBitunixApi::class);
+        $this->app->bind(ChangeLeverageRequestContract::class, LaravelBitunixApi::class);
     }
 }
