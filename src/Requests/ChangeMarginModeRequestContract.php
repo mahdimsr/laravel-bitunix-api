@@ -9,10 +9,9 @@ interface ChangeMarginModeRequestContract
     /**
      * Change margin mode for a trading pair
      *
-     * @param string $symbol Trading pair (e.g., 'BTCUSDT')
-     * @param string $marginCoin Margin coin (e.g., 'USDT')
-     * @param string $marginMode Margin mode ('ISOLATION' or 'CROSS')
-     * @return ResponseInterface
+     * @param  string  $symbol  Trading pair (e.g., 'BTCUSDT')
+     * @param  string  $marginCoin  Margin coin (e.g., 'USDT')
+     * @param  string  $marginMode  Margin mode ('ISOLATION' or 'CROSS')
      */
     public function changeMarginMode(string $symbol, string $marginCoin, string $marginMode): ResponseInterface;
 }

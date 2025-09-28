@@ -14,7 +14,7 @@ beforeEach(function () {
 it('can place a basic market order', function () {
     $api = app(PlaceOrderRequestContract::class);
 
-    expect(fn() => $api->placeOrder(
+    expect(fn () => $api->placeOrder(
         'BTCUSDT',
         '0.1',
         'BUY',
@@ -26,7 +26,7 @@ it('can place a basic market order', function () {
 it('can place a limit order with price', function () {
     $api = app(PlaceOrderRequestContract::class);
 
-    expect(fn() => $api->placeOrder(
+    expect(fn () => $api->placeOrder(
         'BTCUSDT',
         '0.1',
         'BUY',
@@ -39,7 +39,7 @@ it('can place a limit order with price', function () {
 it('can place an order with all optional parameters', function () {
     $api = app(PlaceOrderRequestContract::class);
 
-    expect(fn() => $api->placeOrder(
+    expect(fn () => $api->placeOrder(
         'BTCUSDT',
         '0.1',
         'BUY',
@@ -64,7 +64,7 @@ it('can place an order with all optional parameters', function () {
 it('can place a close position order', function () {
     $api = app(PlaceOrderRequestContract::class);
 
-    expect(fn() => $api->placeOrder(
+    expect(fn () => $api->placeOrder(
         'BTCUSDT',
         '0.1',
         'SELL',
@@ -78,9 +78,9 @@ it('can place a close position order', function () {
 it('validates required parameters for place order', function () {
     $api = app(PlaceOrderRequestContract::class);
 
-    expect(fn() => $api->placeOrder('BTCUSDT', '0.1', 'BUY', 'OPEN', 'MARKET'))
+    expect(fn () => $api->placeOrder('BTCUSDT', '0.1', 'BUY', 'OPEN', 'MARKET'))
         ->not->toThrow(Exception::class)
-        ->and(fn() => $api->placeOrder('BTCUSDT', '0.1', 'SELL', 'OPEN', 'MARKET'))
+        ->and(fn () => $api->placeOrder('BTCUSDT', '0.1', 'SELL', 'OPEN', 'MARKET'))
         ->not->toThrow(Exception::class);
 });
 
@@ -90,7 +90,7 @@ it('handles different order types correctly', function () {
     $orderTypes = ['LIMIT', 'MARKET'];
 
     foreach ($orderTypes as $orderType) {
-        expect(fn() => $api->placeOrder(
+        expect(fn () => $api->placeOrder(
             'BTCUSDT',
             '0.1',
             'BUY',
@@ -107,7 +107,7 @@ it('handles different trade sides correctly', function () {
     $tradeSides = ['OPEN', 'CLOSE'];
 
     foreach ($tradeSides as $tradeSide) {
-        expect(fn() => $api->placeOrder(
+        expect(fn () => $api->placeOrder(
             'BTCUSDT',
             '0.1',
             'BUY',
@@ -125,7 +125,7 @@ it('can handle different trading pairs', function () {
     $tradingPairs = ['BTCUSDT', 'ETHUSDT', 'ADAUSDT'];
 
     foreach ($tradingPairs as $symbol) {
-        expect(fn() => $api->placeOrder($symbol, '0.1', 'BUY', 'OPEN', 'MARKET'))
+        expect(fn () => $api->placeOrder($symbol, '0.1', 'BUY', 'OPEN', 'MARKET'))
             ->not->toThrow(Exception::class);
     }
 });
@@ -136,7 +136,7 @@ it('validates order side parameter values', function () {
     $sides = ['BUY', 'SELL'];
 
     foreach ($sides as $side) {
-        expect(fn() => $api->placeOrder('BTCUSDT', '0.1', $side, 'OPEN', 'MARKET'))
+        expect(fn () => $api->placeOrder('BTCUSDT', '0.1', $side, 'OPEN', 'MARKET'))
             ->not->toThrow(Exception::class);
     }
 });
@@ -147,7 +147,7 @@ it('validates trade side parameter values', function () {
     $tradeSides = ['OPEN', 'CLOSE'];
 
     foreach ($tradeSides as $tradeSide) {
-        expect(fn() => $api->placeOrder(
+        expect(fn () => $api->placeOrder(
             'BTCUSDT',
             '0.1',
             'BUY',
@@ -162,7 +162,7 @@ it('validates trade side parameter values', function () {
 it('can handle take profit and stop loss parameters', function () {
     $api = app(PlaceOrderRequestContract::class);
 
-    expect(fn() => $api->placeOrder(
+    expect(fn () => $api->placeOrder(
         'BTCUSDT',
         '0.1',
         'BUY',
@@ -187,7 +187,7 @@ it('can handle take profit and stop loss parameters', function () {
 it('can handle reduce only orders', function () {
     $api = app(PlaceOrderRequestContract::class);
 
-    expect(fn() => $api->placeOrder(
+    expect(fn () => $api->placeOrder(
         'BTCUSDT',
         '0.1',
         'SELL',
@@ -204,7 +204,7 @@ it('can handle reduce only orders', function () {
 it('can handle custom client ID', function () {
     $api = app(PlaceOrderRequestContract::class);
 
-    expect(fn() => $api->placeOrder(
+    expect(fn () => $api->placeOrder(
         'BTCUSDT',
         '0.1',
         'BUY',
@@ -223,7 +223,7 @@ it('can handle different effect types', function () {
     $effects = ['IOC', 'FOK', 'GTC', 'POST_ONLY'];
 
     foreach ($effects as $effect) {
-        expect(fn() => $api->placeOrder(
+        expect(fn () => $api->placeOrder(
             'BTCUSDT',
             '0.1',
             'BUY',
@@ -235,4 +235,3 @@ it('can handle different effect types', function () {
         ))->not->toThrow(Exception::class);
     }
 });
-

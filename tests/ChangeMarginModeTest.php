@@ -14,9 +14,9 @@ beforeEach(function () {
 it('can change margin mode successfully', function () {
     $api = app(ChangeMarginModeRequestContract::class);
 
-    expect(fn() => $api->changeMarginMode('BTCUSDT', 'USDT', 'ISOLATION'))
+    expect(fn () => $api->changeMarginMode('BTCUSDT', 'USDT', 'ISOLATION'))
         ->not->toThrow(Exception::class)
-        ->and(fn() => $api->changeMarginMode('BTCUSDT', 'USDT', 'CROSS'))
+        ->and(fn () => $api->changeMarginMode('BTCUSDT', 'USDT', 'CROSS'))
         ->not->toThrow(Exception::class);
 
 });
@@ -24,9 +24,9 @@ it('can change margin mode successfully', function () {
 it('validates required parameters for change margin mode', function () {
     $api = app(ChangeMarginModeRequestContract::class);
 
-    expect(fn() => $api->changeMarginMode('BTCUSDT', 'USDT', 'ISOLATION'))
+    expect(fn () => $api->changeMarginMode('BTCUSDT', 'USDT', 'ISOLATION'))
         ->not->toThrow(Exception::class)
-        ->and(fn() => $api->changeMarginMode('ETHUSDT', 'USDT', 'CROSS'))
+        ->and(fn () => $api->changeMarginMode('ETHUSDT', 'USDT', 'CROSS'))
         ->not->toThrow(Exception::class);
 
 });
@@ -45,9 +45,9 @@ it('handles different margin modes correctly', function () {
 it('validates margin mode parameter values', function () {
     $api = app(ChangeMarginModeRequestContract::class);
 
-    expect(fn() => $api->changeMarginMode('BTCUSDT', 'USDT', 'ISOLATION'))
+    expect(fn () => $api->changeMarginMode('BTCUSDT', 'USDT', 'ISOLATION'))
         ->not->toThrow(Exception::class)
-        ->and(fn() => $api->changeMarginMode('BTCUSDT', 'USDT', 'CROSS'))
+        ->and(fn () => $api->changeMarginMode('BTCUSDT', 'USDT', 'CROSS'))
         ->not->toThrow(Exception::class);
 
 });
@@ -88,9 +88,9 @@ it('validates margin mode constants', function () {
 it('handles edge cases for margin mode', function () {
     $api = app(ChangeMarginModeRequestContract::class);
 
-    expect(fn() => $api->changeMarginMode('BTCUSDT', 'USDT', 'ISOLATION'))
+    expect(fn () => $api->changeMarginMode('BTCUSDT', 'USDT', 'ISOLATION'))
         ->not->toThrow(Exception::class)
-        ->and(fn() => $api->changeMarginMode('ETHUSDT', 'USDT', 'CROSS'))
+        ->and(fn () => $api->changeMarginMode('ETHUSDT', 'USDT', 'CROSS'))
         ->not->toThrow(Exception::class);
 
 });
