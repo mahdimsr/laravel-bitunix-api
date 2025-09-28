@@ -4,11 +4,12 @@ namespace Msr\LaravelBitunixApi;
 
 use GuzzleHttp\Client;
 use Msr\LaravelBitunixApi\Requests\ChangeLeverageRequestContract;
+use Msr\LaravelBitunixApi\Requests\ChangeMarginModeRequestContract;
 use Msr\LaravelBitunixApi\Requests\FutureKLineRequestContract;
 use Msr\LaravelBitunixApi\Requests\Header;
 use Psr\Http\Message\ResponseInterface;
 
-class LaravelBitunixApi implements ChangeLeverageRequestContract, FutureKLineRequestContract
+class LaravelBitunixApi implements ChangeLeverageRequestContract, ChangeMarginModeRequestContract, FutureKLineRequestContract
 {
     private Client $publicFutureClient;
 
@@ -55,6 +56,21 @@ class LaravelBitunixApi implements ChangeLeverageRequestContract, FutureKLineReq
         ];
 
         $response = $this->getPrivateFutureClient([], $body)->post('account/change_leverage', [
+            'json' => $body,
+        ]);
+
+        return $response;
+    }
+
+    public function changeMarginMode(string $symbol, string $marginCoin, string $marginMode): ResponseInterface
+    {
+        $body = [
+            'symbol' => $symbol,
+            'marginCoin' => $marginCoin,
+            'marginMode' => $marginMode,
+        ];
+
+        $response = $this->getPrivateFutureClient([], $body)->post('account/change_margin_mode', [
             'json' => $body,
         ]);
 

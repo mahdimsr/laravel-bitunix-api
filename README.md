@@ -1,84 +1,184 @@
-# composer package for using bitunix api trading
+# Laravel Bitunix API Package
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/mahdimsr/laravel-bitunix-api.svg?style=flat-square)](https://packagist.org/packages/mahdimsr/laravel-bitunix-api)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/mahdimsr/laravel-bitunix-api/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/mahdimsr/laravel-bitunix-api/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/mahdimsr/laravel-bitunix-api/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/mahdimsr/laravel-bitunix-api/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
-[![Total Downloads](https://img.shields.io/packagist/dt/mahdimsr/laravel-bitunix-api.svg?style=flat-square)](https://packagist.org/packages/mahdimsr/laravel-bitunix-api)
-
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
-
-## Support us
-
-[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/laravel-bitunix-api.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/laravel-bitunix-api)
-
-We invest a lot of resources into creating [best in class open source packages](https://spatie.be/open-source). You can support us by [buying one of our paid products](https://spatie.be/open-source/support-us).
-
-We highly appreciate you sending us a postcard from your hometown, mentioning which of our package(s) you are using. You'll find our address on [our contact page](https://spatie.be/about-us). We publish all received postcards on [our virtual postcard wall](https://spatie.be/open-source/postcards).
+A Laravel package for interacting with the Bitunix cryptocurrency exchange API.
 
 ## Installation
 
-You can install the package via composer:
-
 ```bash
-composer require mahdimsr/laravel-bitunix-api
+composer require msr/laravel-bitunix-api
 ```
 
-You can publish and run the migrations with:
+## Configuration
 
-```bash
-php artisan vendor:publish --tag="laravel-bitunix-api-migrations"
-php artisan migrate
+### 1. Environment Variables
+
+Add the following variables to your `.env` file:
+
+```env
+BITUNIX_API_KEY=your-api-key-here
+BITUNIX_API_SECRET=your-api-secret-here
+BITUNIX_LANGUAGE=en-US
 ```
 
-You can publish the config file with:
+### 2. Publish Configuration (Optional)
 
 ```bash
-php artisan vendor:publish --tag="laravel-bitunix-api-config"
+php artisan vendor:publish --tag=bitunix-api-config
 ```
 
-This is the contents of the published config file:
+### 3. Verify Configuration
 
-```php
-return [
-];
-```
-
-Optionally, you can publish the views using
+Run the configuration check script:
 
 ```bash
-php artisan vendor:publish --tag="laravel-bitunix-api-views"
+php scripts/check-config.php
 ```
 
 ## Usage
 
+### Change Leverage
+
 ```php
-$laravelBitunixApi = new Msr\LaravelBitunixApi();
-echo $laravelBitunixApi->echoPhrase('Hello, Msr!');
+use Msr\LaravelBitunixApi\Requests\ChangeLeverageRequestContract;
+
+$api = app(ChangeLeverageRequestContract::class);
+$response = $api->changeLeverage('BTCUSDT', 'USDT', 12);
+
+if ($response->getStatusCode() === 200) {
+    $data = json_decode($response->getBody()->getContents(), true);
+    if ($data['code'] === 0) {
+        echo "Leverage changed successfully!";
+    }
+}
+```
+
+### Change Margin Mode
+
+```php
+use Msr\LaravelBitunixApi\Requests\ChangeMarginModeRequestContract;
+
+$api = app(ChangeMarginModeRequestContract::class);
+$response = $api->changeMarginMode('BTCUSDT', 'USDT', 'ISOLATION');
+
+if ($response->getStatusCode() === 200) {
+    $data = json_decode($response->getBody()->getContents(), true);
+    if ($data['code'] === 0) {
+        echo "Margin mode changed successfully!";
+    }
+}
+```
+
+### Get Future Kline Data
+
+```php
+use Msr\LaravelBitunixApi\Requests\FutureKLineRequestContract;
+
+$api = app(FutureKLineRequestContract::class);
+$response = $api->getFutureKline('BTCUSDT', '1h', 100);
+
+if ($response->getStatusCode() === 200) {
+    $data = json_decode($response->getBody()->getContents(), true);
+    // Process kline data
+}
+```
+
+## API Methods
+
+### Account Management
+
+- `changeLeverage(string $symbol, string $marginCoin, int $leverage)` - Change leverage
+- `changeMarginMode(string $symbol, string $marginCoin, string $marginMode)` - Change margin mode
+
+### Market Data
+
+- `getFutureKline(string $symbol, string $interval, int $limit, ?int $startTime, ?int $endTime, string $type)` - Get kline data
+
+## Configuration Options
+
+| Option | Description | Default |
+|--------|-------------|---------|
+| `future_base_uri` | Bitunix API base URI | `https://fapi.bitunix.com/` |
+| `api_key` | Your API key | From `BITUNIX_API_KEY` env var |
+| `api_secret` | Your API secret | From `BITUNIX_API_SECRET` env var |
+| `language` | API language | From `BITUNIX_LANGUAGE` env var or `en-US` |
+
+## Rate Limits
+
+- **Change Leverage**: 10 req/sec/uid
+- **Change Margin Mode**: 10 req/sec/uid
+
+## Error Handling
+
+All methods return a `ResponseInterface` object. Check the response status and parse the JSON response:
+
+```php
+$response = $api->changeLeverage('BTCUSDT', 'USDT', 12);
+
+if ($response->getStatusCode() === 200) {
+    $data = json_decode($response->getBody()->getContents(), true);
+    
+    if ($data['code'] === 0) {
+        // Success
+        echo "Operation successful: " . $data['msg'];
+    } else {
+        // API Error
+        echo "API Error: " . $data['msg'];
+    }
+} else {
+    // HTTP Error
+    echo "HTTP Error: " . $response->getStatusCode();
+}
 ```
 
 ## Testing
 
+Run the test suite:
+
 ```bash
-composer test
+vendor/bin/pest
 ```
 
-## Changelog
+Run specific tests:
 
-Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
+```bash
+vendor/bin/pest tests/ChangeLeverageTest.php
+vendor/bin/pest tests/ChangeMarginModeTest.php
+vendor/bin/pest tests/HeaderTest.php
+```
 
-## Contributing
+## Examples
 
-Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
+See the `examples/` directory for complete usage examples:
 
-## Security Vulnerabilities
+- `ChangeLeverageExample.php`
+- `ChangeMarginModeExample.php`
 
-Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
+## Troubleshooting
 
-## Credits
+### API credentials not loading from .env
 
-- [mahdi mansouri](https://github.com/mahdimsr)
-- [All Contributors](../../contributors)
+1. Make sure your `.env` file is in the project root
+2. Check that the variable names match exactly (case-sensitive)
+3. Restart your application/server after changing .env
+4. Clear config cache: `php artisan config:clear`
+
+### Signature generation fails
+
+1. Verify API key and secret are correct
+2. Check that the credentials have the necessary permissions
+3. Ensure your system time is synchronized
+
+## Security
+
+- Never commit API credentials to version control
+- Use environment variables for all sensitive data
+- Restrict API key permissions to minimum required
+- Regularly rotate API keys
 
 ## License
 
-The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
+MIT License. See LICENSE file for details.
+
+## Support
+
+For issues and questions, please create an issue on the GitHub repository.
