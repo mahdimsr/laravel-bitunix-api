@@ -34,7 +34,24 @@ Run the configuration check script:
 php scripts/check-config.php
 ```
 
-## Usage
+# Usage
+
+## Using Facade Class
+
+```php
+$response = \Msr\LaravelBitunixApi\Facades\LaravelBitunixApi::changeLeverage('BTCUSDT', 'USDT', 12);
+```
+
+## Using implemented contracts class
+
+```php
+$api = new \Msr\LaravelBitunixApi\LaravelBitunixApi();
+$response = $api->changeLeverage('BTCUSDT', 'USDT', 12);
+```
+
+## Using Contracts
+
+which bind in package service provide (`LaravelBitunixApiServiceProvider`)
 
 ### Change Leverage
 
