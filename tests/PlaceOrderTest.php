@@ -235,3 +235,4 @@ it('can handle different effect types', function () {
         ))->not->toThrow(Exception::class);
     }
 });
+
