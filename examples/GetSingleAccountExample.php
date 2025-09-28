@@ -33,23 +33,23 @@ try {
         $data = json_decode($response->getBody()->getContents(), true);
         if ($data['code'] === 0) {
             echo "✅ USDT account details retrieved successfully!\n";
-            
+
             $account = $data['data'][0];
             echo "Account Details:\n";
-            echo "  Margin Coin: " . $account['marginCoin'] . "\n";
-            echo "  Available: " . $account['available'] . "\n";
-            echo "  Frozen: " . $account['frozen'] . "\n";
-            echo "  Margin: " . $account['margin'] . "\n";
-            echo "  Transfer: " . $account['transfer'] . "\n";
-            echo "  Position Mode: " . $account['positionMode'] . "\n";
-            echo "  Cross Unrealized PnL: " . $account['crossUnrealizedPNL'] . "\n";
-            echo "  Isolation Unrealized PnL: " . $account['isolationUnrealizedPNL'] . "\n";
-            echo "  Bonus: " . $account['bonus'] . "\n";
+            echo '  Margin Coin: '.$account['marginCoin']."\n";
+            echo '  Available: '.$account['available']."\n";
+            echo '  Frozen: '.$account['frozen']."\n";
+            echo '  Margin: '.$account['margin']."\n";
+            echo '  Transfer: '.$account['transfer']."\n";
+            echo '  Position Mode: '.$account['positionMode']."\n";
+            echo '  Cross Unrealized PnL: '.$account['crossUnrealizedPNL']."\n";
+            echo '  Isolation Unrealized PnL: '.$account['isolationUnrealizedPNL']."\n";
+            echo '  Bonus: '.$account['bonus']."\n";
         } else {
-            echo "❌ API Error: " . $data['msg'] . "\n";
+            echo '❌ API Error: '.$data['msg']."\n";
         }
     } else {
-        echo "❌ HTTP Error: " . $response->getStatusCode() . "\n";
+        echo '❌ HTTP Error: '.$response->getStatusCode()."\n";
     }
 
     echo "\n";
@@ -62,23 +62,23 @@ try {
         $data = json_decode($response->getBody()->getContents(), true);
         if ($data['code'] === 0) {
             echo "✅ BTC account details retrieved successfully!\n";
-            
+
             $account = $data['data'][0];
             echo "Account Details:\n";
-            echo "  Margin Coin: " . $account['marginCoin'] . "\n";
-            echo "  Available: " . $account['available'] . "\n";
-            echo "  Frozen: " . $account['frozen'] . "\n";
-            echo "  Margin: " . $account['margin'] . "\n";
-            echo "  Transfer: " . $account['transfer'] . "\n";
-            echo "  Position Mode: " . $account['positionMode'] . "\n";
-            echo "  Cross Unrealized PnL: " . $account['crossUnrealizedPNL'] . "\n";
-            echo "  Isolation Unrealized PnL: " . $account['isolationUnrealizedPNL'] . "\n";
-            echo "  Bonus: " . $account['bonus'] . "\n";
+            echo '  Margin Coin: '.$account['marginCoin']."\n";
+            echo '  Available: '.$account['available']."\n";
+            echo '  Frozen: '.$account['frozen']."\n";
+            echo '  Margin: '.$account['margin']."\n";
+            echo '  Transfer: '.$account['transfer']."\n";
+            echo '  Position Mode: '.$account['positionMode']."\n";
+            echo '  Cross Unrealized PnL: '.$account['crossUnrealizedPNL']."\n";
+            echo '  Isolation Unrealized PnL: '.$account['isolationUnrealizedPNL']."\n";
+            echo '  Bonus: '.$account['bonus']."\n";
         } else {
-            echo "❌ API Error: " . $data['msg'] . "\n";
+            echo '❌ API Error: '.$data['msg']."\n";
         }
     } else {
-        echo "❌ HTTP Error: " . $response->getStatusCode() . "\n";
+        echo '❌ HTTP Error: '.$response->getStatusCode()."\n";
     }
 
     echo "\n";
@@ -89,19 +89,19 @@ try {
 
     foreach ($marginCoins as $marginCoin) {
         echo "Getting {$marginCoin} account details...\n";
-        
+
         $response = $api->getSingleAccount($marginCoin);
-        
+
         if ($response->getStatusCode() === 200) {
             $data = json_decode($response->getBody()->getContents(), true);
             if ($data['code'] === 0) {
                 $account = $data['data'][0];
                 echo "✅ {$marginCoin} account: Available={$account['available']}, Frozen={$account['frozen']}, Margin={$account['margin']}\n";
             } else {
-                echo "❌ Failed to get {$marginCoin} account: " . $data['msg'] . "\n";
+                echo "❌ Failed to get {$marginCoin} account: ".$data['msg']."\n";
             }
         } else {
-            echo "❌ HTTP Error for {$marginCoin}: " . $response->getStatusCode() . "\n";
+            echo "❌ HTTP Error for {$marginCoin}: ".$response->getStatusCode()."\n";
         }
     }
 
@@ -110,19 +110,19 @@ try {
     // Example 4: Error handling
     echo "4. Error handling example...\n";
     $invalidMarginCoin = 'INVALID';
-    
+
     $response = $api->getSingleAccount($invalidMarginCoin);
-    
+
     if ($response->getStatusCode() === 200) {
         $data = json_decode($response->getBody()->getContents(), true);
         if ($data['code'] === 0) {
             echo "✅ Account details retrieved successfully!\n";
         } else {
-            echo "❌ API Error: " . $data['msg'] . "\n";
+            echo '❌ API Error: '.$data['msg']."\n";
             echo "This is expected for invalid margin coin\n";
         }
     } else {
-        echo "❌ HTTP Error: " . $response->getStatusCode() . "\n";
+        echo '❌ HTTP Error: '.$response->getStatusCode()."\n";
     }
 
 } catch (Exception $e) {
@@ -131,12 +131,12 @@ try {
 
 /**
  * Get Single Account Features:
- * 
+ *
  * - Get account details for specific margin coin
  * - Rate limit: 10 req/sec/uid
  * - Returns comprehensive account information
  * - Supports multiple margin coins
- * 
+ *
  * Response includes:
  * - marginCoin: Margin Coin
  * - available: Available quantity in the account
@@ -147,7 +147,7 @@ try {
  * - crossUnrealizedPNL: Unrealized PnL for cross positions
  * - isolationUnrealizedPNL: Unrealized PnL for isolation positions
  * - bonus: Futures Bonus
- * 
+ *
  * Environment Variables Required:
  *
  * BITUNIX_API_KEY=your-api-key

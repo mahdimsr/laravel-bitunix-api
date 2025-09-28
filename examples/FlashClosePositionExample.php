@@ -28,19 +28,19 @@ try {
     // Example 1: Flash close a single position
     echo "1. Flash closing position...\n";
     $positionId = '19848247723672';
-    
+
     $response = $api->flashClosePosition($positionId);
 
     if ($response->getStatusCode() === 200) {
         $data = json_decode($response->getBody()->getContents(), true);
         if ($data['code'] === 0) {
             echo "✅ Position flash closed successfully!\n";
-            echo "Position ID: " . $data['data']['positionId'] . "\n";
+            echo 'Position ID: '.$data['data']['positionId']."\n";
         } else {
-            echo "❌ API Error: " . $data['msg'] . "\n";
+            echo '❌ API Error: '.$data['msg']."\n";
         }
     } else {
-        echo "❌ HTTP Error: " . $response->getStatusCode() . "\n";
+        echo '❌ HTTP Error: '.$response->getStatusCode()."\n";
     }
 
     echo "\n";
@@ -50,23 +50,23 @@ try {
     $positionIds = [
         '19848247723672',
         '19848247723673',
-        '19848247723674'
+        '19848247723674',
     ];
 
     foreach ($positionIds as $positionId) {
         echo "Closing position: {$positionId}...\n";
-        
+
         $response = $api->flashClosePosition($positionId);
-        
+
         if ($response->getStatusCode() === 200) {
             $data = json_decode($response->getBody()->getContents(), true);
             if ($data['code'] === 0) {
                 echo "✅ Position {$positionId} closed successfully!\n";
             } else {
-                echo "❌ Failed to close position {$positionId}: " . $data['msg'] . "\n";
+                echo "❌ Failed to close position {$positionId}: ".$data['msg']."\n";
             }
         } else {
-            echo "❌ HTTP Error for position {$positionId}: " . $response->getStatusCode() . "\n";
+            echo "❌ HTTP Error for position {$positionId}: ".$response->getStatusCode()."\n";
         }
     }
 
@@ -75,19 +75,19 @@ try {
     // Example 3: Error handling
     echo "3. Error handling example...\n";
     $invalidPositionId = 'invalid-position-id';
-    
+
     $response = $api->flashClosePosition($invalidPositionId);
-    
+
     if ($response->getStatusCode() === 200) {
         $data = json_decode($response->getBody()->getContents(), true);
         if ($data['code'] === 0) {
             echo "✅ Position closed successfully!\n";
         } else {
-            echo "❌ API Error: " . $data['msg'] . "\n";
+            echo '❌ API Error: '.$data['msg']."\n";
             echo "This is expected for invalid position ID\n";
         }
     } else {
-        echo "❌ HTTP Error: " . $response->getStatusCode() . "\n";
+        echo '❌ HTTP Error: '.$response->getStatusCode()."\n";
     }
 
 } catch (Exception $e) {
@@ -96,19 +96,19 @@ try {
 
 /**
  * Flash Close Position Features:
- * 
+ *
  * - Closes position by position ID
  * - Rate limit: 5 req/sec/uid
  * - Immediate position closure
  * - No additional parameters required
- * 
+ *
  * Important Notes:
- * 
+ *
  * - Position ID must be valid and exist
  * - Position must be open to be closed
  * - This is an immediate action (flash close)
  * - Use with caution as it closes positions immediately
- * 
+ *
  * Environment Variables Required:
  *
  * BITUNIX_API_KEY=your-api-key

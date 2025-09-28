@@ -14,7 +14,7 @@ beforeEach(function () {
 it('can flash close position successfully', function () {
     $api = app(FlashClosePositionRequestContract::class);
 
-    expect(fn() => $api->flashClosePosition('19848247723672'))
+    expect(fn () => $api->flashClosePosition('19848247723672'))
         ->not->toThrow(Exception::class);
 });
 
@@ -22,9 +22,9 @@ it('validates required position ID parameter', function () {
     $api = app(FlashClosePositionRequestContract::class);
 
     // Test with valid position ID
-    expect(fn() => $api->flashClosePosition('19848247723672'))
+    expect(fn () => $api->flashClosePosition('19848247723672'))
         ->not->toThrow(Exception::class)
-        ->and(fn() => $api->flashClosePosition('123456789'))
+        ->and(fn () => $api->flashClosePosition('123456789'))
         ->not->toThrow(Exception::class);
 });
 
@@ -36,11 +36,11 @@ it('can handle different position ID formats', function () {
         '123456789',
         '987654321',
         'position-123',
-        'pos_456'
+        'pos_456',
     ];
 
     foreach ($positionIds as $positionId) {
-        expect(fn() => $api->flashClosePosition($positionId))
+        expect(fn () => $api->flashClosePosition($positionId))
             ->not->toThrow(Exception::class);
     }
 });
@@ -49,9 +49,9 @@ it('validates position ID parameter type', function () {
     $api = app(FlashClosePositionRequestContract::class);
 
     // Test with string position ID
-    expect(fn() => $api->flashClosePosition('19848247723672'))
+    expect(fn () => $api->flashClosePosition('19848247723672'))
         ->not->toThrow(Exception::class)
-        ->and(fn() => $api->flashClosePosition('123456789'))
+        ->and(fn () => $api->flashClosePosition('123456789'))
         ->not->toThrow(Exception::class);
 });
 
@@ -59,9 +59,9 @@ it('can handle edge cases for position ID', function () {
     $api = app(FlashClosePositionRequestContract::class);
 
     // Test with long position ID
-    expect(fn() => $api->flashClosePosition('198482477236721234567890'))
+    expect(fn () => $api->flashClosePosition('198482477236721234567890'))
         ->not->toThrow(Exception::class)
-        ->and(fn() => $api->flashClosePosition('123'))
+        ->and(fn () => $api->flashClosePosition('123'))
         ->not->toThrow(Exception::class);
 });
 
@@ -77,7 +77,7 @@ it('can handle multiple flash close position calls', function () {
     $positionIds = ['19848247723672', '19848247723673', '19848247723674'];
 
     foreach ($positionIds as $positionId) {
-        expect(fn() => $api->flashClosePosition($positionId))
+        expect(fn () => $api->flashClosePosition($positionId))
             ->not->toThrow(Exception::class);
     }
 });
@@ -87,7 +87,7 @@ it('validates flash close position response structure', function () {
 
     // This test verifies the method can be called without throwing exceptions
     // The actual response structure will be validated by the API
-    expect(fn() => $api->flashClosePosition('19848247723672'))
+    expect(fn () => $api->flashClosePosition('19848247723672'))
         ->not->toThrow(Exception::class);
 });
 
@@ -95,9 +95,9 @@ it('can handle special characters in position ID', function () {
     $api = app(FlashClosePositionRequestContract::class);
 
     // Test with position ID containing special characters
-    expect(fn() => $api->flashClosePosition('pos-123_456'))
+    expect(fn () => $api->flashClosePosition('pos-123_456'))
         ->not->toThrow(Exception::class)
-        ->and(fn() => $api->flashClosePosition('pos.123.456'))
+        ->and(fn () => $api->flashClosePosition('pos.123.456'))
         ->not->toThrow(Exception::class);
 });
 
@@ -106,6 +106,6 @@ it('validates flash close position with empty string', function () {
 
     // This should not throw an exception at the method level
     // The API will handle validation
-    expect(fn() => $api->flashClosePosition(''))
+    expect(fn () => $api->flashClosePosition(''))
         ->not->toThrow(Exception::class);
 });

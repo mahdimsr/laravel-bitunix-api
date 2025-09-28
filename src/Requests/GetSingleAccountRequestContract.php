@@ -9,8 +9,7 @@ interface GetSingleAccountRequestContract
     /**
      * Get account details with the given margin coin
      *
-     * @param string $marginCoin Margin coin (e.g., 'USDT')
-     * @return ResponseInterface
+     * @param  string  $marginCoin  Margin coin (e.g., 'USDT')
      */
     public function getSingleAccount(string $marginCoin): ResponseInterface;
 }

@@ -33,23 +33,23 @@ try {
         $data = json_decode($response->getBody()->getContents(), true);
         if ($data['code'] === 0) {
             echo "✅ Pending positions retrieved successfully!\n";
-            echo "Number of positions: " . count($data['data']) . "\n";
-            
+            echo 'Number of positions: '.count($data['data'])."\n";
+
             foreach ($data['data'] as $position) {
-                echo "  - Position ID: " . $position['positionId'] . "\n";
-                echo "    Symbol: " . $position['symbol'] . "\n";
-                echo "    Side: " . $position['side'] . "\n";
-                echo "    Quantity: " . $position['qty'] . "\n";
-                echo "    Unrealized PnL: " . $position['unrealizedPNL'] . "\n";
-                echo "    Margin: " . $position['margin'] . "\n";
-                echo "    Leverage: " . $position['leverage'] . "\n";
+                echo '  - Position ID: '.$position['positionId']."\n";
+                echo '    Symbol: '.$position['symbol']."\n";
+                echo '    Side: '.$position['side']."\n";
+                echo '    Quantity: '.$position['qty']."\n";
+                echo '    Unrealized PnL: '.$position['unrealizedPNL']."\n";
+                echo '    Margin: '.$position['margin']."\n";
+                echo '    Leverage: '.$position['leverage']."\n";
                 echo "    ---\n";
             }
         } else {
-            echo "❌ API Error: " . $data['msg'] . "\n";
+            echo '❌ API Error: '.$data['msg']."\n";
         }
     } else {
-        echo "❌ HTTP Error: " . $response->getStatusCode() . "\n";
+        echo '❌ HTTP Error: '.$response->getStatusCode()."\n";
     }
 
     echo "\n";
@@ -62,21 +62,21 @@ try {
         $data = json_decode($response->getBody()->getContents(), true);
         if ($data['code'] === 0) {
             echo "✅ BTCUSDT pending positions retrieved successfully!\n";
-            echo "Number of BTCUSDT positions: " . count($data['data']) . "\n";
-            
+            echo 'Number of BTCUSDT positions: '.count($data['data'])."\n";
+
             foreach ($data['data'] as $position) {
-                echo "  - Position ID: " . $position['positionId'] . "\n";
-                echo "    Entry Value: " . $position['entryValue'] . "\n";
-                echo "    Average Open Price: " . $position['avgOpenPrice'] . "\n";
-                echo "    Liquidation Price: " . $position['liqPrice'] . "\n";
-                echo "    Margin Rate: " . $position['marginRate'] . "\n";
+                echo '  - Position ID: '.$position['positionId']."\n";
+                echo '    Entry Value: '.$position['entryValue']."\n";
+                echo '    Average Open Price: '.$position['avgOpenPrice']."\n";
+                echo '    Liquidation Price: '.$position['liqPrice']."\n";
+                echo '    Margin Rate: '.$position['marginRate']."\n";
                 echo "    ---\n";
             }
         } else {
-            echo "❌ API Error: " . $data['msg'] . "\n";
+            echo '❌ API Error: '.$data['msg']."\n";
         }
     } else {
-        echo "❌ HTTP Error: " . $response->getStatusCode() . "\n";
+        echo '❌ HTTP Error: '.$response->getStatusCode()."\n";
     }
 
     echo "\n";
@@ -90,36 +90,36 @@ try {
         $data = json_decode($response->getBody()->getContents(), true);
         if ($data['code'] === 0) {
             echo "✅ Position {$positionId} retrieved successfully!\n";
-            
-            if (!empty($data['data'])) {
+
+            if (! empty($data['data'])) {
                 $position = $data['data'][0];
                 echo "  Position Details:\n";
-                echo "    Position ID: " . $position['positionId'] . "\n";
-                echo "    Symbol: " . $position['symbol'] . "\n";
-                echo "    Side: " . $position['side'] . "\n";
-                echo "    Quantity: " . $position['qty'] . "\n";
-                echo "    Entry Value: " . $position['entryValue'] . "\n";
-                echo "    Average Open Price: " . $position['avgOpenPrice'] . "\n";
-                echo "    Unrealized PnL: " . $position['unrealizedPNL'] . "\n";
-                echo "    Realized PnL: " . $position['realizedPNL'] . "\n";
-                echo "    Margin: " . $position['margin'] . "\n";
-                echo "    Leverage: " . $position['leverage'] . "\n";
-                echo "    Margin Mode: " . $position['marginMode'] . "\n";
-                echo "    Position Mode: " . $position['positionMode'] . "\n";
-                echo "    Liquidation Price: " . $position['liqPrice'] . "\n";
-                echo "    Margin Rate: " . $position['marginRate'] . "\n";
-                echo "    Fee: " . $position['fee'] . "\n";
-                echo "    Funding: " . $position['funding'] . "\n";
-                echo "    Created: " . date('Y-m-d H:i:s', $position['ctime'] / 1000) . "\n";
-                echo "    Modified: " . date('Y-m-d H:i:s', $position['mtime'] / 1000) . "\n";
+                echo '    Position ID: '.$position['positionId']."\n";
+                echo '    Symbol: '.$position['symbol']."\n";
+                echo '    Side: '.$position['side']."\n";
+                echo '    Quantity: '.$position['qty']."\n";
+                echo '    Entry Value: '.$position['entryValue']."\n";
+                echo '    Average Open Price: '.$position['avgOpenPrice']."\n";
+                echo '    Unrealized PnL: '.$position['unrealizedPNL']."\n";
+                echo '    Realized PnL: '.$position['realizedPNL']."\n";
+                echo '    Margin: '.$position['margin']."\n";
+                echo '    Leverage: '.$position['leverage']."\n";
+                echo '    Margin Mode: '.$position['marginMode']."\n";
+                echo '    Position Mode: '.$position['positionMode']."\n";
+                echo '    Liquidation Price: '.$position['liqPrice']."\n";
+                echo '    Margin Rate: '.$position['marginRate']."\n";
+                echo '    Fee: '.$position['fee']."\n";
+                echo '    Funding: '.$position['funding']."\n";
+                echo '    Created: '.date('Y-m-d H:i:s', $position['ctime'] / 1000)."\n";
+                echo '    Modified: '.date('Y-m-d H:i:s', $position['mtime'] / 1000)."\n";
             } else {
                 echo "No position found with ID: {$positionId}\n";
             }
         } else {
-            echo "❌ API Error: " . $data['msg'] . "\n";
+            echo '❌ API Error: '.$data['msg']."\n";
         }
     } else {
-        echo "❌ HTTP Error: " . $response->getStatusCode() . "\n";
+        echo '❌ HTTP Error: '.$response->getStatusCode()."\n";
     }
 
     echo "\n";
@@ -132,12 +132,12 @@ try {
         $data = json_decode($response->getBody()->getContents(), true);
         if ($data['code'] === 0) {
             echo "✅ Filtered positions retrieved successfully!\n";
-            echo "Number of filtered positions: " . count($data['data']) . "\n";
+            echo 'Number of filtered positions: '.count($data['data'])."\n";
         } else {
-            echo "❌ API Error: " . $data['msg'] . "\n";
+            echo '❌ API Error: '.$data['msg']."\n";
         }
     } else {
-        echo "❌ HTTP Error: " . $response->getStatusCode() . "\n";
+        echo '❌ HTTP Error: '.$response->getStatusCode()."\n";
     }
 
 } catch (Exception $e) {
@@ -146,13 +146,13 @@ try {
 
 /**
  * Get Pending Positions Features:
- * 
+ *
  * - Get all pending positions
  * - Filter by trading pair (symbol)
  * - Filter by position ID
  * - Get detailed position information
  * - Rate limit: 10 req/sec/uid
- * 
+ *
  * Response includes:
  * - positionId: Position ID
  * - symbol: Trading pair
@@ -172,7 +172,7 @@ try {
  * - avgOpenPrice: Average open price
  * - ctime: Create timestamp
  * - mtime: Latest modify timestamp
- * 
+ *
  * Environment Variables Required:
  *
  * BITUNIX_API_KEY=your-api-key

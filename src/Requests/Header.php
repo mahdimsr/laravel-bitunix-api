@@ -33,7 +33,7 @@ class Header
         $result = '';
 
         foreach ($sortedParameters as $key => $value) {
-            $result .= $key . $value;
+            $result .= $key.$value;
         }
 
         return $result;
@@ -82,7 +82,7 @@ class Header
         // Step 3: Create digest: SHA256(nonce + timestamp + api-key + queryParams + body (if not empty))
         if (strlen($bodyString) == 0) {
             $digestInput = $nonce.$timestamp.$apiKey.$queryParamsString;
-        }else{
+        } else {
             $digestInput = $nonce.$timestamp.$apiKey.$queryParamsString.$bodyString;
         }
         $digest = hash('sha256', $digestInput);
