@@ -5,12 +5,13 @@ namespace Msr\LaravelBitunixApi;
 use GuzzleHttp\Client;
 use Msr\LaravelBitunixApi\Requests\ChangeLeverageRequestContract;
 use Msr\LaravelBitunixApi\Requests\ChangeMarginModeRequestContract;
+use Msr\LaravelBitunixApi\Requests\FlashClosePositionRequestContract;
 use Msr\LaravelBitunixApi\Requests\FutureKLineRequestContract;
 use Msr\LaravelBitunixApi\Requests\Header;
 use Msr\LaravelBitunixApi\Requests\PlaceOrderRequestContract;
 use Psr\Http\Message\ResponseInterface;
 
-class LaravelBitunixApi implements ChangeLeverageRequestContract, ChangeMarginModeRequestContract, FutureKLineRequestContract, PlaceOrderRequestContract
+class LaravelBitunixApi implements ChangeLeverageRequestContract, ChangeMarginModeRequestContract, FlashClosePositionRequestContract, FutureKLineRequestContract, PlaceOrderRequestContract
 {
     private Client $publicFutureClient;
 
@@ -148,6 +149,19 @@ class LaravelBitunixApi implements ChangeLeverageRequestContract, ChangeMarginMo
         }
 
         $response = $this->getPrivateFutureClient([], $body)->post('trade/place_order', [
+            'json' => $body,
+        ]);
+
+        return $response;
+    }
+
+    public function flashClosePosition(string $positionId): ResponseInterface
+    {
+        $body = [
+            'positionId' => $positionId,
+        ];
+
+        $response = $this->getPrivateFutureClient([], $body)->post('trade/flash_close_position', [
             'json' => $body,
         ]);
 

@@ -109,6 +109,23 @@ if ($response->getStatusCode() === 200) {
 }
 ```
 
+### Flash Close Position
+
+```php
+use Msr\LaravelBitunixApi\Requests\FlashClosePositionRequestContract;
+
+$api = app(FlashClosePositionRequestContract::class);
+$response = $api->flashClosePosition('19848247723672');
+
+if ($response->getStatusCode() === 200) {
+    $data = json_decode($response->getBody()->getContents(), true);
+    if ($data['code'] === 0) {
+        echo "Position flash closed successfully!";
+        echo "Position ID: " . $data['data']['positionId'];
+    }
+}
+```
+
 ### Get Future Kline Data
 
 ```php
@@ -133,6 +150,7 @@ if ($response->getStatusCode() === 200) {
 ### Trading
 
 - `placeOrder(...)` - Place a new order with full support for all order types, take profit, stop loss, and position management
+- `flashClosePosition(string $positionId)` - Flash close position by position ID
 
 ### Market Data
 
@@ -152,6 +170,7 @@ if ($response->getStatusCode() === 200) {
 - **Change Leverage**: 10 req/sec/uid
 - **Change Margin Mode**: 10 req/sec/uid
 - **Place Order**: 10 req/sec/uid
+- **Flash Close Position**: 5 req/sec/uid
 
 ## Error Handling
 
@@ -190,6 +209,7 @@ Run specific tests:
 vendor/bin/pest tests/ChangeLeverageTest.php
 vendor/bin/pest tests/ChangeMarginModeTest.php
 vendor/bin/pest tests/PlaceOrderTest.php
+vendor/bin/pest tests/FlashClosePositionTest.php
 vendor/bin/pest tests/HeaderTest.php
 ```
 
@@ -200,6 +220,7 @@ See the `examples/` directory for complete usage examples:
 - `ChangeLeverageExample.php`
 - `ChangeMarginModeExample.php`
 - `PlaceOrderExample.php`
+- `FlashClosePositionExample.php`
 
 ## Troubleshooting
 
