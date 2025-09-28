@@ -11,9 +11,10 @@ use Msr\LaravelBitunixApi\Requests\GetPendingPositionsRequestContract;
 use Msr\LaravelBitunixApi\Requests\GetSingleAccountRequestContract;
 use Msr\LaravelBitunixApi\Requests\Header;
 use Msr\LaravelBitunixApi\Requests\PlaceOrderRequestContract;
+use Msr\LaravelBitunixApi\Requests\PlaceTpSlOrderRequestContract;
 use Psr\Http\Message\ResponseInterface;
 
-class LaravelBitunixApi implements ChangeLeverageRequestContract, ChangeMarginModeRequestContract, FlashClosePositionRequestContract, FutureKLineRequestContract, GetPendingPositionsRequestContract, GetSingleAccountRequestContract, PlaceOrderRequestContract
+class LaravelBitunixApi implements ChangeLeverageRequestContract, ChangeMarginModeRequestContract, FlashClosePositionRequestContract, FutureKLineRequestContract, GetPendingPositionsRequestContract, GetSingleAccountRequestContract, PlaceOrderRequestContract, PlaceTpSlOrderRequestContract
 {
     private Client $publicFutureClient;
 
@@ -197,6 +198,64 @@ class LaravelBitunixApi implements ChangeLeverageRequestContract, ChangeMarginMo
 
         $response = $this->getPrivateFutureClient($queryParams, [])->get('account', [
             'query' => $queryParams,
+        ]);
+
+        return $response;
+    }
+
+    public function placeTpSlOrder(
+        string $symbol,
+        string $positionId,
+        ?string $tpPrice = null,
+        ?string $tpStopType = null,
+        ?string $slPrice = null,
+        ?string $slStopType = null,
+        ?string $tpOrderType = null,
+        ?string $tpOrderPrice = null,
+        ?string $slOrderType = null,
+        ?string $slOrderPrice = null,
+        ?string $tpQty = null,
+        ?string $slQty = null
+    ): ResponseInterface {
+        $body = [
+            'symbol' => $symbol,
+            'positionId' => $positionId,
+        ];
+
+        // Add optional parameters if provided
+        if ($tpPrice !== null) {
+            $body['tpPrice'] = $tpPrice;
+        }
+        if ($tpStopType !== null) {
+            $body['tpStopType'] = $tpStopType;
+        }
+        if ($slPrice !== null) {
+            $body['slPrice'] = $slPrice;
+        }
+        if ($slStopType !== null) {
+            $body['slStopType'] = $slStopType;
+        }
+        if ($tpOrderType !== null) {
+            $body['tpOrderType'] = $tpOrderType;
+        }
+        if ($tpOrderPrice !== null) {
+            $body['tpOrderPrice'] = $tpOrderPrice;
+        }
+        if ($slOrderType !== null) {
+            $body['slOrderType'] = $slOrderType;
+        }
+        if ($slOrderPrice !== null) {
+            $body['slOrderPrice'] = $slOrderPrice;
+        }
+        if ($tpQty !== null) {
+            $body['tpQty'] = $tpQty;
+        }
+        if ($slQty !== null) {
+            $body['slQty'] = $slQty;
+        }
+
+        $response = $this->getPrivateFutureClient([], $body)->post('tpsl/place_order', [
+            'json' => $body,
         ]);
 
         return $response;

@@ -185,6 +185,38 @@ if ($response->getStatusCode() === 200) {
 }
 ```
 
+### Place TP/SL Order
+
+```php
+use Msr\LaravelBitunixApi\Requests\PlaceTpSlOrderRequestContract;
+
+$api = app(PlaceTpSlOrderRequestContract::class);
+
+// Place TP/SL order with both take profit and stop loss
+$response = $api->placeTpSlOrder(
+    'BTCUSDT',          // symbol
+    '111',              // positionId
+    '50000',            // tpPrice
+    'LAST_PRICE',       // tpStopType
+    '45000',            // slPrice
+    'LAST_PRICE',       // slStopType
+    'LIMIT',            // tpOrderType
+    '50000.1',          // tpOrderPrice
+    'LIMIT',            // slOrderType
+    '45000.1',          // slOrderPrice
+    '1',                // tpQty
+    '1'                 // slQty
+);
+
+if ($response->getStatusCode() === 200) {
+    $data = json_decode($response->getBody()->getContents(), true);
+    if ($data['code'] === 0) {
+        echo "TP/SL order placed successfully!";
+        echo "Order ID: " . $data['data']['orderId'];
+    }
+}
+```
+
 ### Get Future Kline Data
 
 ```php
@@ -210,6 +242,7 @@ if ($response->getStatusCode() === 200) {
 ### Trading
 
 - `placeOrder(...)` - Place a new order with full support for all order types, take profit, stop loss, and position management
+- `placeTpSlOrder(...)` - Place TP/SL order for existing positions
 - `flashClosePosition(string $positionId)` - Flash close position by position ID
 
 ### Position Management
@@ -235,6 +268,7 @@ if ($response->getStatusCode() === 200) {
 - **Change Margin Mode**: 10 req/sec/uid
 - **Get Single Account**: 10 req/sec/uid
 - **Place Order**: 10 req/sec/uid
+- **Place TP/SL Order**: 10 req/sec/uid
 - **Flash Close Position**: 5 req/sec/uid
 - **Get Pending Positions**: 10 req/sec/uid
 
@@ -276,6 +310,7 @@ vendor/bin/pest tests/ChangeLeverageTest.php
 vendor/bin/pest tests/ChangeMarginModeTest.php
 vendor/bin/pest tests/GetSingleAccountTest.php
 vendor/bin/pest tests/PlaceOrderTest.php
+vendor/bin/pest tests/PlaceTpSlOrderTest.php
 vendor/bin/pest tests/FlashClosePositionTest.php
 vendor/bin/pest tests/GetPendingPositionsTest.php
 vendor/bin/pest tests/HeaderTest.php
@@ -289,6 +324,7 @@ See the `examples/` directory for complete usage examples:
 - `ChangeMarginModeExample.php`
 - `GetSingleAccountExample.php`
 - `PlaceOrderExample.php`
+- `PlaceTpSlOrderExample.php`
 - `FlashClosePositionExample.php`
 - `GetPendingPositionsExample.php`
 
