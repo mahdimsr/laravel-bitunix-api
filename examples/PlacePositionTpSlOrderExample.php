@@ -5,7 +5,7 @@
  *
  * This example demonstrates how to use the LaravelBitunixApi package
  * to place position TP/SL orders on Bitunix exchange.
- * 
+ *
  * Note: When triggered, it will close the position at market price based on the position quantity at that time.
  * Each position can only have one Position TP/SL Order.
  */
@@ -107,7 +107,7 @@ try {
 
     foreach ($symbols as $symbol) {
         echo "Placing position TP/SL order for {$symbol}...\n";
-        
+
         $response = $api->placePositionTpSlOrder(
             $symbol,
             '111',
@@ -116,7 +116,7 @@ try {
             '45000',
             'LAST_PRICE'
         );
-        
+
         if ($response->getStatusCode() === 200) {
             $data = json_decode($response->getBody()->getContents(), true);
             if ($data['code'] === 0) {
@@ -138,7 +138,7 @@ try {
 
     foreach ($positionIds as $positionId) {
         echo "Placing position TP/SL order for position ID {$positionId}...\n";
-        
+
         $response = $api->placePositionTpSlOrder(
             'BTCUSDT',
             $positionId,
@@ -147,7 +147,7 @@ try {
             '45000',
             'LAST_PRICE'
         );
-        
+
         if ($response->getStatusCode() === 200) {
             $data = json_decode($response->getBody()->getContents(), true);
             if ($data['code'] === 0) {
@@ -174,7 +174,7 @@ try {
 
     foreach ($stopTypeCombinations as $index => $combination) {
         echo "Placing position TP/SL order with stop types: {$combination[0]}, {$combination[1]}...\n";
-        
+
         $response = $api->placePositionTpSlOrder(
             'BTCUSDT',
             '111',
@@ -183,17 +183,17 @@ try {
             '45000',
             $combination[1]
         );
-        
+
         if ($response->getStatusCode() === 200) {
             $data = json_decode($response->getBody()->getContents(), true);
             if ($data['code'] === 0) {
                 echo "✅ Position TP/SL order with {$combination[0]}/{$combination[1]} placed successfully!\n";
                 echo 'Order ID: '.$data['data']['orderId']."\n";
             } else {
-                echo "❌ Failed to place position TP/SL order: ".$data['msg']."\n";
+                echo '❌ Failed to place position TP/SL order: '.$data['msg']."\n";
             }
         } else {
-            echo "❌ HTTP Error: ".$response->getStatusCode()."\n";
+            echo '❌ HTTP Error: '.$response->getStatusCode()."\n";
         }
     }
 
@@ -202,7 +202,7 @@ try {
     // Example 7: Error handling
     echo "7. Error handling example...\n";
     $response = $api->placePositionTpSlOrder('INVALID', '111');
-    
+
     if ($response->getStatusCode() === 200) {
         $data = json_decode($response->getBody()->getContents(), true);
         if ($data['code'] === 0) {
@@ -221,31 +221,31 @@ try {
 
 /**
  * Place Position TP/SL Order Features:
- * 
+ *
  * - Place position TP/SL orders for existing positions
  * - Rate limit: 10 req/sec/UID
  * - Supports both take profit and stop loss
  * - When triggered, closes position at market price
  * - Each position can only have one Position TP/SL Order
- * 
+ *
  * Required Parameters:
  * - symbol: Trading pair
  * - positionId: Position ID associated with TP/SL
- * 
+ *
  * Optional Parameters:
  * - tpPrice: Take-profit trigger price
  * - tpStopType: Take-profit trigger type (LAST_PRICE/MARK_PRICE)
  * - slPrice: Stop-loss trigger price
  * - slStopType: Stop-loss trigger type (LAST_PRICE/MARK_PRICE)
- * 
+ *
  * Note: At least one of tpPrice or slPrice is required.
- * 
+ *
  * Key Differences from regular TP/SL Order:
  * - Simpler parameters (no order types, prices, quantities)
  * - Automatically closes position at market price when triggered
  * - One order per position limit
  * - Uses position/place_order endpoint
- * 
+ *
  * Environment Variables Required:
  *
  * BITUNIX_API_KEY=your-api-key

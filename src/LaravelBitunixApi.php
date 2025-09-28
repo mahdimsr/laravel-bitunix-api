@@ -15,7 +15,7 @@ use Msr\LaravelBitunixApi\Requests\PlacePositionTpSlOrderRequestContract;
 use Msr\LaravelBitunixApi\Requests\PlaceTpSlOrderRequestContract;
 use Psr\Http\Message\ResponseInterface;
 
-class LaravelBitunixApi implements ChangeLeverageRequestContract, ChangeMarginModeRequestContract, FlashClosePositionRequestContract, FutureKLineRequestContract, GetPendingPositionsRequestContract, GetSingleAccountRequestContract, PlaceOrderRequestContract, PlaceTpSlOrderRequestContract, PlacePositionTpSlOrderRequestContract
+class LaravelBitunixApi implements ChangeLeverageRequestContract, ChangeMarginModeRequestContract, FlashClosePositionRequestContract, FutureKLineRequestContract, GetPendingPositionsRequestContract, GetSingleAccountRequestContract, PlaceOrderRequestContract, PlacePositionTpSlOrderRequestContract, PlaceTpSlOrderRequestContract
 {
     private Client $publicFutureClient;
 

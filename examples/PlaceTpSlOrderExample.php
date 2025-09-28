@@ -124,7 +124,7 @@ try {
 
     foreach ($symbols as $symbol) {
         echo "Placing TP/SL order for {$symbol}...\n";
-        
+
         $response = $api->placeTpSlOrder(
             $symbol,
             '111',
@@ -139,7 +139,7 @@ try {
             '1',
             '1'
         );
-        
+
         if ($response->getStatusCode() === 200) {
             $data = json_decode($response->getBody()->getContents(), true);
             if ($data['code'] === 0) {
@@ -161,7 +161,7 @@ try {
 
     foreach ($positionIds as $positionId) {
         echo "Placing TP/SL order for position ID {$positionId}...\n";
-        
+
         $response = $api->placeTpSlOrder(
             'BTCUSDT',
             $positionId,
@@ -176,7 +176,7 @@ try {
             '1',
             '1'
         );
-        
+
         if ($response->getStatusCode() === 200) {
             $data = json_decode($response->getBody()->getContents(), true);
             if ($data['code'] === 0) {
@@ -195,7 +195,7 @@ try {
     // Example 6: Error handling
     echo "6. Error handling example...\n";
     $response = $api->placeTpSlOrder('INVALID', '111');
-    
+
     if ($response->getStatusCode() === 200) {
         $data = json_decode($response->getBody()->getContents(), true);
         if ($data['code'] === 0) {
@@ -214,16 +214,16 @@ try {
 
 /**
  * Place TP/SL Order Features:
- * 
+ *
  * - Place TP/SL orders for existing positions
  * - Rate limit: 10 req/sec/UID
  * - Supports both take profit and stop loss
  * - Flexible parameter configuration
- * 
+ *
  * Required Parameters:
  * - symbol: Trading pair
  * - positionId: Position ID associated with TP/SL
- * 
+ *
  * Optional Parameters:
  * - tpPrice: Take-profit trigger price
  * - tpStopType: Take-profit trigger type (LAST_PRICE/MARK_PRICE)
@@ -235,10 +235,10 @@ try {
  * - slOrderPrice: Stop-loss order price
  * - tpQty: Take-profit order quantity (base coin)
  * - slQty: Stop-loss order quantity (base coin)
- * 
+ *
  * Note: At least one of tpPrice or slPrice is required.
  * At least one of tpQty or slQty is required.
- * 
+ *
  * Environment Variables Required:
  *
  * BITUNIX_API_KEY=your-api-key

@@ -14,14 +14,14 @@ beforeEach(function () {
 it('can place TP/SL order with required parameters only', function () {
     $api = app(PlaceTpSlOrderRequestContract::class);
 
-    expect(fn() => $api->placeTpSlOrder('BTCUSDT', '111'))
+    expect(fn () => $api->placeTpSlOrder('BTCUSDT', '111'))
         ->not->toThrow(Exception::class);
 });
 
 it('can place TP/SL order with take profit only', function () {
     $api = app(PlaceTpSlOrderRequestContract::class);
 
-    expect(fn() => $api->placeTpSlOrder(
+    expect(fn () => $api->placeTpSlOrder(
         'BTCUSDT',
         '111',
         '50000',        // tpPrice
@@ -40,7 +40,7 @@ it('can place TP/SL order with take profit only', function () {
 it('can place TP/SL order with stop loss only', function () {
     $api = app(PlaceTpSlOrderRequestContract::class);
 
-    expect(fn() => $api->placeTpSlOrder(
+    expect(fn () => $api->placeTpSlOrder(
         'BTCUSDT',
         '111',
         null,           // tpPrice
@@ -59,7 +59,7 @@ it('can place TP/SL order with stop loss only', function () {
 it('can place TP/SL order with both take profit and stop loss', function () {
     $api = app(PlaceTpSlOrderRequestContract::class);
 
-    expect(fn() => $api->placeTpSlOrder(
+    expect(fn () => $api->placeTpSlOrder(
         'BTCUSDT',
         '111',
         '50000',        // tpPrice
@@ -87,7 +87,7 @@ it('can handle different symbol formats', function () {
     $symbols = ['BTCUSDT', 'ETHUSDT', 'ADAUSDT'];
 
     foreach ($symbols as $symbol) {
-        expect(fn() => $api->placeTpSlOrder($symbol, '111'))
+        expect(fn () => $api->placeTpSlOrder($symbol, '111'))
             ->not->toThrow(Exception::class);
     }
 });
@@ -98,7 +98,7 @@ it('can handle different position ID formats', function () {
     $positionIds = ['111', 'position-123', '19848247723672'];
 
     foreach ($positionIds as $positionId) {
-        expect(fn() => $api->placeTpSlOrder('BTCUSDT', $positionId))
+        expect(fn () => $api->placeTpSlOrder('BTCUSDT', $positionId))
             ->not->toThrow(Exception::class);
     }
 });
@@ -109,7 +109,7 @@ it('can handle different stop types', function () {
     $stopTypes = ['LAST_PRICE', 'MARK_PRICE'];
 
     foreach ($stopTypes as $stopType) {
-        expect(fn() => $api->placeTpSlOrder(
+        expect(fn () => $api->placeTpSlOrder(
             'BTCUSDT',
             '111',
             '50000',
@@ -126,7 +126,7 @@ it('can handle different order types', function () {
     $orderTypes = ['LIMIT', 'MARKET'];
 
     foreach ($orderTypes as $orderType) {
-        expect(fn() => $api->placeTpSlOrder(
+        expect(fn () => $api->placeTpSlOrder(
             'BTCUSDT',
             '111',
             '50000',
@@ -147,7 +147,7 @@ it('can handle different quantity formats', function () {
     $quantities = ['1', '0.1', '10.5', '100'];
 
     foreach ($quantities as $qty) {
-        expect(fn() => $api->placeTpSlOrder(
+        expect(fn () => $api->placeTpSlOrder(
             'BTCUSDT',
             '111',
             '50000',
@@ -170,7 +170,7 @@ it('can handle different price formats', function () {
     $prices = ['50000', '50000.1', '50000.01', '50000.001'];
 
     foreach ($prices as $price) {
-        expect(fn() => $api->placeTpSlOrder(
+        expect(fn () => $api->placeTpSlOrder(
             'BTCUSDT',
             '111',
             $price,
@@ -196,7 +196,7 @@ it('can handle multiple place TP/SL order calls', function () {
     ];
 
     foreach ($calls as $params) {
-        expect(fn() => $api->placeTpSlOrder(...$params))
+        expect(fn () => $api->placeTpSlOrder(...$params))
             ->not->toThrow(Exception::class);
     }
 });
@@ -206,7 +206,7 @@ it('validates place TP/SL order response structure', function () {
 
     // This test verifies the method can be called without throwing exceptions
     // The actual response structure will be validated by the API
-    expect(fn() => $api->placeTpSlOrder('BTCUSDT', '111'))
+    expect(fn () => $api->placeTpSlOrder('BTCUSDT', '111'))
         ->not->toThrow(Exception::class);
 });
 
@@ -214,11 +214,11 @@ it('can handle edge cases for TP/SL order', function () {
     $api = app(PlaceTpSlOrderRequestContract::class);
 
     // Test with minimum required parameters
-    expect(fn() => $api->placeTpSlOrder('BTCUSDT', '111'))
+    expect(fn () => $api->placeTpSlOrder('BTCUSDT', '111'))
         ->not->toThrow(Exception::class);
 
     // Test with all parameters
-    expect(fn() => $api->placeTpSlOrder(
+    expect(fn () => $api->placeTpSlOrder(
         'BTCUSDT',
         '111',
         '50000',
@@ -238,11 +238,11 @@ it('can handle special characters in parameters', function () {
     $api = app(PlaceTpSlOrderRequestContract::class);
 
     // Test with special characters in position ID
-    expect(fn() => $api->placeTpSlOrder('BTCUSDT', 'pos-123-abc'))
+    expect(fn () => $api->placeTpSlOrder('BTCUSDT', 'pos-123-abc'))
         ->not->toThrow(Exception::class);
 
     // Test with decimal prices
-    expect(fn() => $api->placeTpSlOrder(
+    expect(fn () => $api->placeTpSlOrder(
         'BTCUSDT',
         '111',
         '50000.123',
