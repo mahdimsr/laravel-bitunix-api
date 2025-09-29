@@ -1,7 +1,14 @@
 name: run-tests
 
 on:
+  pull_request:
+    branches:
+      - main
+      - dev
   push:
+    branches:
+      - dev
+      - main
     paths:
       - '**.php'
       - '.github/workflows/run-tests.yml'
