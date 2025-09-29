@@ -2,6 +2,15 @@
 
 A Laravel package for interacting with the Bitunix cryptocurrency exchange API.
 
+---
+
+[![Latest Stable Version](https://poser.pugx.org/mahdimsr/laravel-bitunix-api/v/stable)](https://packagist.org/packages/msr/laravel-bitunix-api)
+[![Fix PHP code style issues](https://github.com/mahdimsr/laravel-bitunix-api/actions/workflows/fix-php-code-style-issues.yml/badge.svg)](https://github.com/mahdimsr/laravel-bitunix-api/actions/workflows/fix-php-code-style-issues.yml)
+[![PHPStan](https://github.com/mahdimsr/laravel-bitunix-api/actions/workflows/phpstan.yml/badge.svg)](https://github.com/mahdimsr/laravel-bitunix-api/actions/workflows/phpstan.yml)
+[![run-tests](https://github.com/mahdimsr/laravel-bitunix-api/actions/workflows/run-tests.yml/badge.svg)](https://github.com/mahdimsr/laravel-bitunix-api/actions/workflows/run-tests.yml)
+[![License](https://poser.pugx.org/mahdimsr/laravel-bitunix-api/license)](https://packagist.org/packages/msr/laravel-bitunix-api)
+
+
 ## Installation
 
 ```bash
