@@ -2,6 +2,15 @@
 
 use Msr\LaravelBitunixApi\Requests\ChangeLeverageRequestContract;
 
+beforeEach(function () {
+    config([
+        'bitunix-api.future_base_uri' => 'https://fapi.bitunix.com/',
+        'bitunix-api.api_key' => 'test-api-key',
+        'bitunix-api.api_secret' => 'test-secret-key',
+        'bitunix-api.language' => 'en-US',
+    ]);
+});
+
 it('can change leverage successfully', function () {
     $api = app(ChangeLeverageRequestContract::class);
     // This test will make a real API call if credentials are valid

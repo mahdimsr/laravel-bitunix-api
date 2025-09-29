@@ -24,7 +24,7 @@ it('sort query parameters', function () {
 it('get sorted query params as string value', function () {
 
     $digestedParam = Header::digestQueryParameters([]);
-    expect($digestedParam)->toBeNull();
+    expect($digestedParam)->toBeEmpty();
 
     $params = [
         'z_index' => 'z_value',
