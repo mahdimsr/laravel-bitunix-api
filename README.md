@@ -5,7 +5,7 @@ A Laravel package for interacting with the Bitunix cryptocurrency exchange API.
 ## Installation
 
 ```bash
-composer require msr/laravel-bitunix-api
+composer require mahdimsr/laravel-bitunix-api
 ```
 
 ## Configuration
