@@ -106,4 +106,3 @@ it('can handle empty symbols parameter', function () {
     expect(fn () => $api->getTradingPairs(null))
         ->not->toThrow(Exception::class);
 });
-
