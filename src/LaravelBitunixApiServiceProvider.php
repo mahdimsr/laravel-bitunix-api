@@ -9,6 +9,7 @@ use Msr\LaravelBitunixApi\Requests\FlashClosePositionRequestContract;
 use Msr\LaravelBitunixApi\Requests\FutureKLineRequestContract;
 use Msr\LaravelBitunixApi\Requests\GetPendingPositionsRequestContract;
 use Msr\LaravelBitunixApi\Requests\GetSingleAccountRequestContract;
+use Msr\LaravelBitunixApi\Requests\GetTradingPairsRequestContract;
 use Msr\LaravelBitunixApi\Requests\PlaceOrderRequestContract;
 use Msr\LaravelBitunixApi\Requests\PlacePositionTpSlOrderRequestContract;
 use Msr\LaravelBitunixApi\Requests\PlaceTpSlOrderRequestContract;
@@ -45,5 +46,6 @@ class LaravelBitunixApiServiceProvider extends PackageServiceProvider
         $this->app->bind(GetSingleAccountRequestContract::class, LaravelBitunixApi::class);
         $this->app->bind(PlaceTpSlOrderRequestContract::class, LaravelBitunixApi::class);
         $this->app->bind(PlacePositionTpSlOrderRequestContract::class, LaravelBitunixApi::class);
+        $this->app->bind(GetTradingPairsRequestContract::class, LaravelBitunixApi::class);
     }
 }
