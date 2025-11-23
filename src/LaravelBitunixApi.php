@@ -9,13 +9,14 @@ use Msr\LaravelBitunixApi\Requests\FlashClosePositionRequestContract;
 use Msr\LaravelBitunixApi\Requests\FutureKLineRequestContract;
 use Msr\LaravelBitunixApi\Requests\GetPendingPositionsRequestContract;
 use Msr\LaravelBitunixApi\Requests\GetSingleAccountRequestContract;
+use Msr\LaravelBitunixApi\Requests\GetTradingPairsRequestContract;
 use Msr\LaravelBitunixApi\Requests\Header;
 use Msr\LaravelBitunixApi\Requests\PlaceOrderRequestContract;
 use Msr\LaravelBitunixApi\Requests\PlacePositionTpSlOrderRequestContract;
 use Msr\LaravelBitunixApi\Requests\PlaceTpSlOrderRequestContract;
 use Psr\Http\Message\ResponseInterface;
 
-class LaravelBitunixApi implements ChangeLeverageRequestContract, ChangeMarginModeRequestContract, FlashClosePositionRequestContract, FutureKLineRequestContract, GetPendingPositionsRequestContract, GetSingleAccountRequestContract, PlaceOrderRequestContract, PlacePositionTpSlOrderRequestContract, PlaceTpSlOrderRequestContract
+class LaravelBitunixApi implements ChangeLeverageRequestContract, ChangeMarginModeRequestContract, FlashClosePositionRequestContract, FutureKLineRequestContract, GetPendingPositionsRequestContract, GetSingleAccountRequestContract, GetTradingPairsRequestContract, PlaceOrderRequestContract, PlacePositionTpSlOrderRequestContract, PlaceTpSlOrderRequestContract
 {
     private Client $publicFutureClient;
 
@@ -48,6 +49,21 @@ class LaravelBitunixApi implements ChangeLeverageRequestContract, ChangeMarginMo
                 'endTime' => $endTime,
                 'type' => $type,
             ],
+        ]);
+
+        return $response;
+    }
+
+    public function getTradingPairs(?string $symbols = null): ResponseInterface
+    {
+        $queryParams = [];
+
+        if ($symbols !== null) {
+            $queryParams['symbols'] = $symbols;
+        }
+
+        $response = $this->publicFutureClient->get('trading_pairs', [
+            'query' => $queryParams,
         ]);
 
         return $response;
